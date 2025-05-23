@@ -55,7 +55,7 @@ o.diffopt:append 'algorithm:histogram'
 o.diffopt:append 'indent-heuristic'
 -- }}
 
--- SEARCHING
+-- [[ SEARCHING ]] {{
 -- highlight on search, clear on pressing <Esc> in normal mode
 o.hlsearch = true
 -- case-insensitive searching unless \C or one or more capital letters in the search term
@@ -64,8 +64,9 @@ o.smartcase = true
 -- preview substitutions live, as you type
 o.inccommand = 'split'
 o.iskeyword:append '-' -- hyphenated words recognized by searches
+-- }}
 
--- FILES, BUFFERS
+-- [[ FILES, BUFFERS ]] {{
 o.swapfile = false
 -- decrease update time (for swap file to be written to disk, default 4000ms)
 -- o.updatetime = 250
@@ -74,8 +75,9 @@ o.splitright = true
 o.splitbelow = true
 -- save undo history
 o.undofile = true -- NOTE: default undodir in `~/.local/state/nvim/undo/` or `~/.local/share/nvim/undo/`
+-- }}
 
--- VISUAL STUFF
+-- [[ VISUAL STUFF ]] {{
 -- keep signcolumn on by default
 o.signcolumn = 'yes'
 -- show which line your cursor is on
@@ -85,8 +87,9 @@ o.scrolloff = 999
 -- sets how neovim will display certain whitespace characters in the editor.
 o.list = true
 o.listchars = { tab = '» ', trail = '·', nbsp = '␣' }
+-- }}
 
--- OTHER QOL STUFF
+-- [[ QOL ]] {{
 o.smartindent = true
 -- this opt changes the hanging jk, lower values (~100)
 -- means you need to be faster but it's not annoying
@@ -94,5 +97,13 @@ o.timeoutlen = 150 -- time to wait for a mapped sequence to complete (in millise
 -- o.timeoutlen = 125 -- time to wait for a mapped sequence to complete (in milliseconds)
 o.updatetime = 100 -- faster completion (4000ms default)
 o.completeopt = 'menuone,noselect' -- better completion
+-- }}
+
+-- [[ SET BORDER STYLE FOR FLOATING WINDOWS (GLOBAL) ]] {{
+-- vim.o.winborder = 'rounded' -- Can be 'none', 'single', 'double', 'rounded', etc.
+-- vim.o.pumblend = 10 -- Set transparency for popup menu
+-- vim.o.winblend = 10 -- Set transparency for floating windows
+-- vim.api.nvim_set_hl(0, 'NormalFloat', { bg = 'None' }) -- Make background transparent
+-- }}
 
 -- vim: ts=2 sts=2 sw=2 et

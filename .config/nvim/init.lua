@@ -1,29 +1,13 @@
---
---  NOTE: Must happen before plugins are loaded (otherwise wrong leader will be used)
---
-vim.cmd [[filetype plugin on]]
-
+-- INFO: had a timeoutlen issue, `:verbose nmap <leader>` helped debug
+-- vim.g is the global namespace, meaning any k, v you put in this big ass table will be accessible anywhere in the config.
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
+vim.g.have_nerd_font = true  -- if a Nerd Font is installed and selected in the terminal
 
--- Set to true if you have a Nerd Font installed and selected in the terminal
-vim.g.have_nerd_font = true
+require("settings.options")
+require("settings.keymaps")
+require("settings.diagnostics")
+require("plugins.bootstrap")
 
--- [[ Setting options ]]
-require 'options'
-
--- [[ Basic Keymaps ]]
-require 'keymaps'
-
--- [[ Basic Autommands ]]
-require 'autocommands'
-
--- [[ Install `lazy.nvim` plugin manager ]]
--- [[ Configure and install plugins ]]
-require 'plugins'
-
--- [[ Load LuaSnip Snippets ]]
-require('luasnip.loaders.from_lua').lazy_load { paths = { vim.fn.stdpath 'config' .. '/snippets' } }
-
--- The line beneath this is called `modeline`. See `:help modeline`
--- vim: ts=2 sts=2 sw=2 et
+-- [[ SNIPPETS ]]
+require('luasnip.loaders.from_lua').lazy_load { paths = { vim.fn.stdpath 'config' .. '/lua/snippets' } }

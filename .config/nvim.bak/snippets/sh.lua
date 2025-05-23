@@ -31,6 +31,47 @@ return {
      exit 42
    fi
   ]], { i(1), rep(1) } )),
+  s("empty?",
+    t("if [[ -z ${"),
+    i(1),
+    t("} ]]; then"),
+    t("\n", "    "),
+    i(2),
+    t("fi")
+  ),
+
+  s("input_yn", t({
+    "input_yn() {",
+    "  local -r prompt=\"${1:-Continue? (Y/n)}\"",
+    "  local yn",
+    "  # Read single character without field splitting (IFS=), no backslash escape (-r)",
+    "  IFS= read -p $'\\e[31;1m'\"${prompt}: \"$'\\e[m ' -n 1 -r yn",
+    "  echo >&2  # Ensure newline after prompt",
+    "  ",
+    "  yn=\"${yn:-Y}\"  # Default to Yes if empty",
+    "  [[ \"$yn\" =~ ^[Yy]$ ]]  # Explicit regex match for Y/y (return code 0/1)",
+    "}"
+  })),
+
+  -- s("input", t({
+  --   "input() {",
+  --   "  declare -r prompt=${1:-\"Confirm? (Y/n)\"}",
+  --   "  IFS= read -p $'\\e[31;1m'\"${prompt}\"$' [Y/n] \\e[m' -n 1 -r yn",
+  --   "  echo >&2",
+  --   "  [[ $yn == [Yy] ]]",
+  --   "}"
+  -- })),
+
+  s("unset?", fmta([[
+   if [ -z ${<>+x} ]; then
+     echo "${<>} is unset"; else echo "${<>} is set to '${<>}'"
+   fi
+
+  ]], { i(1, "var"), rep(1), rep(1), rep(1) })),
+
+  s("setifempty", fmta([[
+   "${<>:-"<>"}"
+  ]], { i(1, "var"), i(2, "default") })),
 
   s("bash", {
     t { "#!/usr/bin/env bash", "" },

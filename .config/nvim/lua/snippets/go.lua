@@ -29,6 +29,12 @@ return {
       }
     )
   ),
+
+    s("empty?", fmta([[
+    if len(<>) == 0 {
+        <>
+    }
+    ]], { i(1), i(2) })),
 }
 
 -- detect clipboard contents, if certain prefix paste into import

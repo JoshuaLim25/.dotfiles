@@ -53,6 +53,7 @@ return {
         -- really comprehensive: https://github.com/hrsh7th/nvim-cmp/wiki/Menu-Appearance
 
         -- [[ AESTHETIC WINDOWS ]] {{
+        -- src: https://www.reddit.com/r/neovim/comments/16qcncm/how_do_you_put_borders_on_this_lsp_preview_ive/
         window = {
           completion = cmp.config.window.bordered(),
           documentation = cmp.config.window.bordered(),
@@ -162,7 +163,6 @@ return {
               luasnip.change_choice(1)
             end
           end, { 'i', 's' }),
-          vim.keymap.set('n', '<leader><leader>s', '<cmd>source ~/.config/nvim/snippets/go.lua<CR>'),
 
           -- For more advanced Luasnip keymaps (e.g. selecting choice nodes, expansion) see:
           --    https://github.com/L3MON4D3/LuaSnip?tab=readme-ov-file#keymaps

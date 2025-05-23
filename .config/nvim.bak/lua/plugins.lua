@@ -8,7 +8,7 @@ vim.opt.rtp:prepend(lazypath)
 -- }}
 
 -- [[ PLUGIN CONFIG AND INSTALL ]] {{
-require('lazy').setup {
+require('lazy').setup({
   -- NOTE: you can add in other plugins with a link (or for a github repo: 'owner/repo' link).
   'tpope/vim-sleuth', -- Detect tabstop and shiftwidth automatically
   -- INFO: can also add them using a table, with the first argument being the link
@@ -44,7 +44,11 @@ require('lazy').setup {
 
   -- modularize everything
   { import = 'custom' },
-}
+}, {
+  ui = {
+    border = 'rounded', -- You can also try 'single', 'double', or 'solid'
+  },
+})
 -- }}
 
 -- vim: ts=2 sts=2 sw=2 et

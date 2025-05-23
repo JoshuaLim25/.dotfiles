@@ -21,9 +21,6 @@ keymap({ 'n', 'v', 'x', 'o' }, 'H', '^', opts)
 keymap({ 'n', 'v', 'x', 'o' }, 'L', '$', opts)
 keymap({ 'n', 'v', 'x', 'o' }, '<C-e>', '$%', opts) -- WHY DIDNT I DO THIS EARLIER
 
--- [[ TOGGLE SEARCH HIGHLIGHTS ]]
-keymap('n', '<Esc>', ':nohlsearch<CR>')
-
 -- [[ "WRITE NO FORMAT" ]]
 keymap('n', '<leader>wnf', ':noautocmd w <CR>', { noremap = true, silent = true, desc = '[W]rite [N]o [F]ormat' })
 -- }}
@@ -40,6 +37,9 @@ keymap('v', 'K', ":m '<-2<CR>gv=gv", opts)
 
 -- [[ DUPLICATE A LINE, COMMENT OUT THE ORIGINAL LINE ]]
 keymap('n', 'yc', 'yygccp', { remap = true }) -- NOTE: `remap = true` is required
+
+-- [[ IM DISABLED ]]
+vim.keymap.set("n", "Q", "<nop>")
 
 -- [[ SENSIBLE BEHAVIOR ]]
 keymap('n', 'J', 'mzJ`z')
@@ -99,18 +99,63 @@ keymap('c', '%s/', '%sm/') -- easier regexes
 -- }}
 
 -- [[ TOGGLES ]] {{
--- [[ TOGGLE ROOT FOR OPS ]]
-vim.keymap.set('n', '<leader>tr', function()
-  vim.g.use_git_root = not vim.g.use_git_root
-  local cwd = vim.g.use_git_root and vim.fs.root(0, '.git') or vim.uv.cwd()
-  vim.notify(string.format('New root: %s', cwd))
-end)
--- -- Example for Telescope
--- require("telescope.builtin").find_files({
---   cwd = vim.g.use_git_root and vim.fs.dirname(git_root) or nil
--- })
+-- [[ TOGGLE SEARCH HIGHLIGHTS ]]
+keymap('n', '<Esc>', ':nohlsearch<CR>')
 
--- [[ Toggle formatting ]]
+-- [[ TOGGLE ROOT FOR OPS ]]
+-- TODO: fix search behavior
+-- HELP: file-searching,
+-- :help finddir and :help fnamemodify
+local function get_git_root()
+  local dot_git_path = vim.fn.finddir('.git', '.;')
+  return vim.fn.fnamemodify(dot_git_path, ':h')
+end
+vim.keymap.set('n', '<leader>tr', function()
+  local new = get_git_root()
+  vim.api.nvim_set_current_dir(get_git_root())
+  vim.notify(string.format('Changed root to: %s', new))
+end, {})
+
+-- vim.keymap.set('n', '<leader>tr', function()
+--   vim.g.use_git_root = not vim.g.use_git_root
+--   local cwd = vim.g.use_git_root and vim.fs.root(0, '.git') or vim.uv.cwd()
+--   vim.notify(string.format('New root: %s', cwd))
+-- end)
+
+-- vim.keymap.set('n', '<leader>tr', function()
+--   vim.g.use_git_root = not vim.g.use_git_root
+--   local new_root = vim.g.use_git_root and vim.fs.root(0, '.git') or vim.uv.cwd()
+--   if new_root then
+--     vim.api.nvim_set_current_dir(new_root)
+--     vim.notify(string.format('Changed root to: %s', new_root))
+--   else
+--     vim.notify('Could not find a viable `.git` root, aborting...', vim.log.levels.ERROR)
+--   end
+-- end)
+
+-- -- Example of above root toggle for Telescope
+-- require('telescope.builtin').find_files {
+--   cwd = vim.g.use_git_root and vim.fs.dirname(git_root) or nil,
+-- }
+
+-- [[ TOGGLE DIAGNOSTICS ]]
+local diagnostics_active = true
+vim.keymap.set('n', '<leader>td', function()
+  diagnostics_active = not diagnostics_active
+  -- this only eliminates some
+  vim.diagnostic.config {
+    virtual_text = diagnostics_active,
+    underline = diagnostics_active,
+  }
+  -- if diagnostics_active then
+  --   vim.diagnostic.enable(true)
+  -- else
+  --   -- vim.diagnostic.enable(false)
+  --   vim.diagnostic.enable(not vim.diagnostic.is_enabled())
+  -- end
+end)
+
+-- [[ TOGGLE FORMATTING ]]
 vim.keymap.set('n', '<leader>tf', function()
   vim.b.disable_formatting = not vim.b.disable_formatting
   local res = vim.b.disable_formatting and 'Disabled' or 'Enabled'
@@ -121,6 +166,7 @@ end, { desc = 'Format: Toggle format on save' })
 -- [[ COPY/PASTE ]] {{
 -- [[ KEEP PASTE BUFFER CLEAN ]]
 -- keymap('x', '<leader>p', [["_dP]])
+-- vim.keymap.set({ "n", "x" }, "<leader>p", [["0p]], { desc = "paste from yank register" })
 
 -- [[ DELETE WITHOUT COPYING INTO REGISTER ]]
 keymap('n', 'x', '"_x', opts) -- WHY: makes it hard to correct small typos (i.e., using `xp`)
@@ -244,22 +290,6 @@ vim.diagnostic.config {
   severity_sort = true,
 }
 
--- [[ TOGGLE DIAGNOSTICS ]]
-local diagnostics_active = true
-vim.keymap.set('n', '<leader>td', function()
-  diagnostics_active = not diagnostics_active
-  -- this only eliminates some
-  vim.diagnostic.config {
-    virtual_text = diagnostics_active,
-    underline = diagnostics_active,
-  }
-  -- if diagnostics_active then
-  --   vim.diagnostic.enable(true)
-  -- else
-  --   -- vim.diagnostic.enable(false)
-  --   vim.diagnostic.enable(not vim.diagnostic.is_enabled())
-  -- end
-end)
 -- }}
 
 -- [[ BUFFERS ]] {{
@@ -278,12 +308,6 @@ keymap('n', '<C-k>', '<C-w><C-k>', { desc = 'Switch focus to upper window' })
 keymap('n', 'gG', 'gg<S-v>G', { desc = 'Select all' })
 
 -- [[ TEXT ]] {{
--- [[ **BOLD**/*ITALICIZE* SELECTION/WORD ]]
-keymap('x', '<C-i>', 's*<C-r>"*<Esc>', { noremap = true, silent = true, desc = 'Italicize Selected Text' })
-keymap('n', '<C-i>', 'diwi*<Esc>pa*<Esc>', { noremap = true, silent = true, desc = 'Italicize Word Cursor Hovers Over' })
-keymap('x', '<C-b>', 's**<C-r>"**<Esc>', { noremap = true, silent = true, desc = 'Emphasize Selected Text' })
-keymap('n', '<C-b>', 'diwi**<Esc>pa**<Esc>', { noremap = true, silent = true, desc = 'Emphasize Word Cursor Hovers Over' })
-
 -- [[ SPELLING ]]
 -- TODO:
 -- -- Set the keymap to toggle spell checking
