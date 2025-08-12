@@ -39,24 +39,7 @@
 - Run `sudo systemctl enable ly.service`
 - `sudoedit /lib/systemd/system/ly.service` to change colors:
 
-```
-[Unit]
-Description=TUI display manager
-After=systemd-user-sessions.service plymouth-quit-wait.service
-After=getty@tty2.service
 
-[Service]
-Type=idle
-ExecStartPre=/usr/bin/printf '%%b' '\e]P018191E\e]P7F4BB44\ec'
-ExecStart=/usr/bin/ly-dm
-StandardInput=tty
-TTYPath=/dev/tty2
-TTYReset=yes
-TTYVHangup=yes
-
-[Install]
-Alias=display-manager.service
-```
 
 ## Reflector
 `sudoedit /etc/xdg/reflector/reflector.conf`

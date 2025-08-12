@@ -1,4 +1,3 @@
-vim.g.vim_lsp_no_default_mappings = true
 return {
     -- src: from the kickstart project
   {
@@ -28,6 +27,7 @@ return {
       'saghen/blink.cmp',
     },
     config = function()
+      vim.g.vim_lsp_no_default_mappings = true,
       vim.api.nvim_create_autocmd('LspAttach', {
         group = vim.api.nvim_create_augroup('kickstart-lsp-attach', { clear = true }),
         callback = function(event)
@@ -154,9 +154,9 @@ return {
       vim.list_extend(ensure_installed, {
         -- NOTE: just putting formatters here
         'stylua', -- Lua
+        'golangci-lint',
         -- 'prettierd', -- md, js code
         -- 'markdownlint',
-        -- 'golangci-lint',
 
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }

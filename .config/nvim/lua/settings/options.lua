@@ -113,7 +113,7 @@ o.ttimeout = true -- matters for keycode issues
 o.ttimeoutlen = -1  -- fallback to timeoutlen
 -- If you set ttimeoutlen to -1, you only need to adjust timeoutlen to control all key-mapping related timeouts. 
 -- lower values mean you need to be faster
-o.timeoutlen = 300 -- time to wait for a mapped sequence to complete (in milliseconds)
+o.timeoutlen = 250 -- time to wait for a mapped sequence to complete (in milliseconds)
 -- }}
 
 

@@ -39,6 +39,21 @@ vim.api.nvim_create_autocmd("InsertLeave", {
 	command = "set nopaste",
 })
 
+-- -- [[ CENTER SCREEN IN INSERT MODE ]]
+-- FIXME: still jank, jumps around
+--  vim.cmd "autocmd CursorMoved * normal! zz"
+-- -- Define the Lua function
+-- local function center_cursor()
+-- local pos = vim.fn.getpos(".")
+-- vim.cmd("normal! zz")
+-- vim.fn.setpos(".", pos)
+-- end
+-- -- Create the autocmd using Lua
+-- vim.api.nvim_create_autocmd("CursorMovedI", {
+-- pattern = "*",
+-- callback = center_cursor
+-- })
+
 -- [[ FILETYPE DETECTION (as needed, just example of how) ]]
 --vim.api.nvim_create_autocmd('BufRead', { pattern = '*.txt', command = 'set filetype=someft' })
 -- }}
@@ -80,43 +95,43 @@ M.change_to_buf_dir = function()
 	end
 end
 
--- [[ SAVE SCRATCHPAD BUFFER FROM /TMP AFTER 5 WRITES ]]
-local scratchpad = "/tmp/*.md"
-local destination = vim.fn.expand("~/spaghetti/projects/notes/")
-local writes = {}
-local max_writes = 5
-vim.api.nvim_create_autocmd("BufWritePost", {
-	pattern = scratchpad,
-	callback = function(args)
-		local bufnr = args.buf
-		writes[bufnr] = (writes[bufnr] or 0) + 1 -- incr on write
-		if writes[bufnr] > max_writes then
-			local suffix = os.date("%Y-%m-%d-")
-			local basename = vim.fn.fnamemodify(args.file, ":t") -- "tail" of absolute path for current buf (blah.md)
-			local dest = destination .. suffix .. basename
-			if vim.fn.filereadable(dest) == 1 then
-				-- vim.notify('Destination file already exists, write it yourself:', vim.log.levels.ERROR)
-				-- ask for input starting from
-				vim.ui.input({
-					prompt = string.format("Destination file already exists:"),
-					default = dest,
-				}, function(input)
-					if input and #input > 0 then
-						os.rename(args.file, input)
-						vim.api.nvim_buf_set_name(0, input)
-						vim.notify(
-							string.format("Moved scratchpad from %s -> %s", args.file, input),
-							vim.log.levels.INFO
-						)
-					end
-				end)
-				return
-			end
-			os.rename(args.file, dest)
-			vim.api.nvim_buf_set_name(0, dest) -- set the scratchpad buf to point to this new one
-			vim.notify(string.format("Moved scratchpad from %s -> %s", args.file, dest), vim.log.levels.INFO)
-		end
-	end,
-})
+-- -- [[ SAVE SCRATCHPAD BUFFER FROM /TMP AFTER 5 WRITES ]]
+-- local scratchpad = "/tmp/*.md"
+-- local destination = vim.fn.expand("~/spaghetti/projects/notes/")
+-- local writes = {}
+-- local max_writes = 5
+-- vim.api.nvim_create_autocmd("BufWritePost", {
+-- 	pattern = scratchpad,
+-- 	callback = function(args)
+-- 		local bufnr = args.buf
+-- 		writes[bufnr] = (writes[bufnr] or 0) + 1 -- incr on write
+-- 		if writes[bufnr] > max_writes then
+-- 			local suffix = os.date("%Y-%m-%d-")
+-- 			local basename = vim.fn.fnamemodify(args.file, ":t") -- "tail" of absolute path for current buf (blah.md)
+-- 			local dest = destination .. suffix .. basename
+-- 			if vim.fn.filereadable(dest) == 1 then
+-- 				-- vim.notify('Destination file already exists, write it yourself:', vim.log.levels.ERROR)
+-- 				-- ask for input starting from
+-- 				vim.ui.input({
+-- 					prompt = string.format("Destination file already exists:"),
+-- 					default = dest,
+-- 				}, function(input)
+-- 					if input and #input > 0 then
+-- 						os.rename(args.file, input)
+-- 						vim.api.nvim_buf_set_name(0, input)
+-- 						vim.notify(
+-- 							string.format("Moved scratchpad from %s -> %s", args.file, input),
+-- 							vim.log.levels.INFO
+-- 						)
+-- 					end
+-- 				end)
+-- 				return
+-- 			end
+-- 			os.rename(args.file, dest)
+-- 			vim.api.nvim_buf_set_name(0, dest) -- set the scratchpad buf to point to this new one
+-- 			vim.notify(string.format("Moved scratchpad from %s -> %s", args.file, dest), vim.log.levels.INFO)
+-- 		end
+-- 	end,
+-- })
 
 return M

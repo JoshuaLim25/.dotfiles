@@ -1,15 +1,33 @@
 -- [[ DIAGNOSTICS ]] {{
--- :h vim.diagnostic
+-- [[ BASIC MAPPINGS ]]
 local keymap = vim.keymap.set
-keymap('n', '<leader>dj', vim.diagnostic.goto_next, { desc = 'Go to next [D]iagnostic message' })
-keymap('n', '<leader>dk', vim.diagnostic.goto_prev, { desc = 'Go to previous [D]iagnostic message' })
+keymap('n', ']d', vim.diagnostic.goto_next, { desc = 'Go to next [D]iagnostic message' })
+keymap('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous [D]iagnostic message' })
 keymap('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
--- [[ TOGGLE DIAGNOSTICS ]]
-keymap('n', '<leader>td', function()
-    local new_config = not vim.diagnostic.config().virtual_lines
-    vim.diagnostic.config({ virtual_lines = new_config })
-end, { desc = '[T]oggle [D]iagnostic floating msg' })
 
+-- [[ TOGGLE DIAGNOSTICS ]]
+local diagnostics_enabled = true
+keymap('n', '<leader>dd', function()
+    diagnostics_enabled = not diagnostics_enabled
+    if diagnostics_enabled then
+        vim.diagnostic.enable()
+        print("LSP diagnostics enabled")
+    else
+        vim.diagnostic.disable()
+        print("LSP diagnostics disabled")
+    end
+end, { desc = 'Toggle LSP diagnostics' })
+
+
+-- [[ DISABLE ALL LSP ]]
+local lsp_enabled = true
+keymap('n', '<leader>dl', function()
+    vim.cmd('LspStop')
+    -- vim.diagnostic.disable()
+    print("LSP disabled")
+end, { desc = 'Toggle all LSP functionality' })
+
+-- [[ VISUALS ]]
 vim.fn.sign_define('DiagnosticSignError', { text = '󰅚 ', texthl = 'DiagnosticSignError' })
 vim.fn.sign_define('DiagnosticSignWarn', { text = '󰀪 ', texthl = 'DiagnosticSignWarn' })
 vim.fn.sign_define('DiagnosticSignInfo', { text = '', texthl = 'DiagnosticSignInfo' })
@@ -17,7 +35,8 @@ vim.fn.sign_define('DiagnosticSignHint', { text = '󰋽 ', texthl = 'DiagnosticS
 
 -- :h vim.diagnostic.Opts
 vim.diagnostic.config {
-    underline = { severity = vim.diagnostic.severity.ERROR },
+    -- underline = { severity = vim.diagnostic.severity.ERROR },
+    underline = true,
     update_in_insert = false,
     severity_sort = true,
     signs = {

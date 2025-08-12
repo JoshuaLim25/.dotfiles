@@ -74,4 +74,7 @@ maybe prefix V and H for copying cwd first
 - `saiw`: [S]urround [A]dd [I]nner [W]ord [)]Paren
 - `sd`: [S]urround [D]elete [']quotes
 - `sr`: [S]urround [R]eplace [)] [']
+
+### FZF
+- `<leader>fd`: find diagnostics
 ---

@@ -40,8 +40,8 @@ export FCEDIT="$(which nvim)"
 export MANPAGER='nvim +Man!'
 # export NVIM_APPNAME='nvim.bak'
 # export NVIM_APPNAME='nvim-test'
-# export PATH="$HOME/.local/share/nvim-test/mason/bin:$PATH"  # if using diff $NVIM_APPNAME
 export NVIM_APPNAME='nvim'
+export PATH="$HOME/.local/share/nvim/mason/bin:$PATH" # NOTE: change if using diff NVIM_APPNAME
 
 
 # RUSTUP TAB COMPLETIONS
@@ -122,8 +122,28 @@ eval "$(fzf --zsh)"
 # https://github.com/junegunn/fzf?tab=readme-ov-file#tips
 export FZF_TMUX_OPTS=" -p90%,80% "
 export FZF_DEFAULT_COMMAND="fd --strip-cwd-prefix --hidden --follow --exclude '.git'"
-export FZF_DEFAULT_OPTS="--height 80% --layout reverse --border --color=hl:#7AA89F --preview-window=right:60% --bind 'ctrl-d:preview-page-down' --bind 'ctrl-u:preview-page-up' --bind 'CTRL-O:toggle-preview-wrap'"
 # export FZF_DEFAULT_OPTS="--height 50% --layout reverse --border --color=hl:#7AA89F"
+# export FZF_DEFAULT_OPTS="--height 80% --layout reverse --border --color=hl:#7AA89F --preview-window=right:60% --bind 'ctrl-d:preview-page-down' --bind 'ctrl-u:preview-page-up' --bind 'CTRL-O:toggle-preview-wrap'"
+# NOTE: default layout puts searchbar in middle/bottom
+export FZF_DEFAULT_OPTS="
+  --height=80% --layout=reverse --border
+  --preview-window=right:60%
+  --bind='ctrl-d:preview-page-down,ctrl-u:preview-page-up,CTRL-O:toggle-preview-wrap'
+  --color='dark,\
+fg:#c5c8c6,\
+fg+:#b5bd68:regular,\
+hl:#f0c674,\
+hl+:#cc6666,\
+bg:#1d1f21,\
+bg+:#43436c,\
+gutter:-1,\
+prompt:#9fb5c9,\
+pointer:#f0c674,\
+marker:#f0c674,\
+info:#7AA89F,\
+border:#81a2be,\
+separator:#282a2e'
+"
 export FZF_ALT_C_COMMAND="fd --type=d --hidden --strip-cwd-prefix --exclude '.git'"
 # https://github.com/junegunn/fzf/wiki/Configuring-shell-key-bindings#ctrl-t
 export FZF_CTRL_T_OPTS="--select-1 --exit-0 --preview 'bat --color=always -n --line-range :500 {}'"
@@ -224,6 +244,11 @@ cargo clippy -- \
 
 # [[ GO ]]
 abbrev-alias gorun='ls *.go | entr -c go run /_' # e.g., rungo test.txt
+# check for new available package updates
+abbrev-alias gocheck="go list -u -f '{{if (and (not (or .Main .Indirect)) .Update)}}{{.Path}}: {{.Version}} -> {{.Update.Version}}{{end}}' -m all"
+
+# [[ SQL ]]
+alias mysql='mariadb'
 
 # [[ TMUX ]]
 abbrev-alias t="tmux"
@@ -273,6 +298,7 @@ alias pkg="pacman -Qq | fzf \
 # alias f='fzf'
 alias f='fzf --print0 | xargs -0 --no-run-if-empty -- nvim' # and ~/.dotfiles/scripts/ff :)
 bindkey -s ^v 'nvim /usr/share/nvim/runtime/doc/**\t'
+alias dim='wlsunset -s $(date +%H:%M) -t 4000 &'
 alias pd='pushd'
 alias vdiff='nvim -d'
 alias py='python3'
@@ -287,7 +313,7 @@ alias proompt='nvim ~/spaghetti/proompt.md'
 alias sc='shellcheck'
 alias btconnect='bluetoothctl connect BC:87:FA:BB:97:66'
 alias souniq='sort | uniq -c'
-alias text='touch test.txt && echo "Alice\nBob\nCharlie" >> test.txt'
+alias text='shuf -n25 /usr/share/dict/american-english -o test.txt'
 # https://www.reddit.com/r/golang/comments/uzrbw3/best_practice_do_you_use_the_go_compiler_from/
 # TODO: hardcoded binary. See script in ~/.local/bin/scripts/goupdate
 alias goupdate='sudo rm -rf /usr/local/go && curl -L https://go.dev/dl/go1.18.2.linux-amd64.tar.gz | sudo tar zx -C /usr/local/ go'

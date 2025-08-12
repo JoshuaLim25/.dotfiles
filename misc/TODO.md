@@ -3,6 +3,17 @@
 # TODOs
 ---
 
+## LC
+- [ ] prefix sum
+- [ ] merge intervals
+- [ ] two ptr/sliding window
+
+
+## PROJ/SCRIPTS
+- script for notifying to take a break from computer (prob ~ every 1hr 30m)
+- backend fundamentals (boot.dev?)
+- dist systems
+- ci/cd
 
 # SHORTER TERM
 ---

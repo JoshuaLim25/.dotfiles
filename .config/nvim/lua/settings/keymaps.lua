@@ -8,9 +8,9 @@ local opts = { noremap = true, silent = true }
 local autocmds = require("settings.autocommands")
 
 -- [[ NORMAL MODE ]]
-keymap("i", "jk", "<esc>", opts)
-keymap("i", "kj", "<esc>", opts)
-keymap("i", "JK", "<esc>", opts)
+-- keymap("i", "jk", "<esc>", opts)
+-- keymap("i", "kj", "<esc>", opts)
+-- keymap("i", "JK", "<esc>", opts)
 
 -- [[ EASIER KEYBINDS FOR COMMON OPS ]]
 keymap("n", "cu", "ct_", opts)
@@ -55,7 +55,8 @@ keymap("x", "A", function()
 end, { expr = true })
 
 -- [[ GLOBAL SUBSTITUTION ]]
-keymap("n", "<leader>su", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]], opts)
+-- keymap("n", "<leader>su", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]], opts)
+keymap("n", "S", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left><C-w>]], opts)
 keymap("v", "<leader>_", ":<C-U>keeppatterns '<,'>s/\\%V[ -]/_/g<CR>", opts)
 
 -- [[ SET WORKDIR TO FILE YOU'RE EDITING ]]
@@ -290,8 +291,8 @@ local abbreviations = {
 	recieve = "receive",
 	strcut = "struct",
 	cosnt = "const",
-	[">>"] = "→",
-	["<<"] = "←",
+	-- [">>"] = "→",  // holy mother of god is this annoying for i →= 1
+	-- ["<<"] = "←",
 	["^^"] = "↑",
 	VV = "↓",
 }

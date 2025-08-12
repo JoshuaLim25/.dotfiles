@@ -23,6 +23,7 @@
 - `ctags`
 - `clang`
 - `npm`
+- `words`
 - `ripgrep`
 - `zip`
 - `unzip`
@@ -89,6 +90,7 @@
 - `hyperfine`
 - `tokei`
 - `kondo-ui`
+- `postgresql`
 
 ## Sway
 

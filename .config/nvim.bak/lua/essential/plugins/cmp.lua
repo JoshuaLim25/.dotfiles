@@ -142,6 +142,9 @@ return {
 
         -- For an understanding of why these mappings were
         -- chosen, you will need to read `:help ins-completion`
+
+
+        -- TODO:
         mapping = cmp.mapping.preset.insert {
           ['<C-n>'] = cmp.mapping.select_next_item(),
           ['<C-p>'] = cmp.mapping.select_prev_item(),
@@ -158,7 +161,7 @@ return {
               luasnip.jump(-1)
             end
           end, { 'i', 's' }),
-          ['<C-o>'] = cmp.mapping(function()
+          ['<C-t>'] = cmp.mapping(function()
             if luasnip.choice_active() then
               luasnip.change_choice(1)
             end
@@ -167,6 +170,7 @@ return {
           -- For more advanced Luasnip keymaps (e.g. selecting choice nodes, expansion) see:
           --    https://github.com/L3MON4D3/LuaSnip?tab=readme-ov-file#keymaps
         },
+
         -- dependencies
         sources = {
           {

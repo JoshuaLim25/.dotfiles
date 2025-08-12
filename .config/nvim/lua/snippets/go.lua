@@ -15,26 +15,36 @@ local sn = ls.snippet_node
 return {
   -- TODO: get fancier one - https://youtu.be/KtQZRAkgLqo?si=rItnlZy3BTcO6dQ3&t=1350
   -- make it log an error or return or whatever based on text_node
-  s(
-    { trig = 'ife', priority = 10000 }, -- high priority
-    fmt(
-      [[
-    if {} != nil {{
-      return {}
-    }}
+  s("ife", fmta([[
+    if <> != nil {
+      return <>
+    }
       ]],
       {
         c(1, { t 'err', t '', t 'ok' }), -- Make it start empty
         rep(1),
-      }
-    )
-  ),
+      })),
+
+    s("ifel", {
+        t({"if err != nil {", "    log.Fatal(err)", "}", ""}),
+        i(0)
+    }),
 
     s("empty?", fmta([[
     if len(<>) == 0 {
         <>
     }
     ]], { i(1), i(2) })),
+
+    s("p", fmt([[
+    fmt.Printf("{}\n", {})
+    {}
+    ]], { i(1), i(2), i(0) })),
+
+    s("fp", fmt([[
+    fmt.Fprintf({}, "{}\n", {})
+    {}
+    ]], { i(1), i(2), i(3), i(0) }))
 }
 
 -- detect clipboard contents, if certain prefix paste into import

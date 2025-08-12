@@ -38,6 +38,7 @@
 	c = commit
 	p = push
 	l = log --oneline --graph --decorate
+    lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset' --abbrev-commit --date=relative
 	ll = log --graph --decorate
 	ls = ls-files
 	lla = ls-files --cached --deleted --modified --others --exclude-standard 
@@ -75,7 +76,9 @@
 	autoSetupRemote = true
 	; INFO: pushes only the current branch to its matching upstream to prevent multi-branch pushes
 	default = simple
-
+; https://go.dev/doc/faq#git_https
+[url "ssh://git@github.com/"]
+    insteadOf = https://github.com/
 
 ; [user]
 ;         email = endadulhoque@gmail.com

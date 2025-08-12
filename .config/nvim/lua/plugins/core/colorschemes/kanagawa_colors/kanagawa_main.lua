@@ -58,6 +58,7 @@ return {
                 bg_search = '#2D4F67',
                 bg_visual = '#43436c',
                 -- bg_visual = '#2D4F67',
+                -- #555fbb
               },
               syn = {
                 punct = '#C8C093', -- oldWhite

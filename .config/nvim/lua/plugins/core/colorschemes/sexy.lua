@@ -18,7 +18,8 @@ return {
         terminalColors = true,
         colors = {
           palette = {
-            waveRed = '#a54242',
+            -- waveRed = '#a54242',
+            waveRed = '#cc6666',
             surimiOrange = '#de935f',
             roninYellow = '#f0c674',
             springGreen = '#b5bd68',
@@ -84,7 +85,8 @@ return {
                 statement = '#b294bb',
                 keyword = '#b294bb',
                 operator = '#f0c674',
-                preproc = '#a54242',
+                -- preproc = '#a54242',
+                preproc = '#cc6666',
                 type = '#87a987',
                 regex = '#f0c674',
                 deprecated = '#707880',
