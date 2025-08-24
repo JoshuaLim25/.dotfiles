@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+
+# TODO: make sure you ln -sfn to clean broken symlink
+input_yn() {
+	local -r prompt="${1:-Continue? (Y/n)}"
+  # Read single character without field splitting (IFS=), no backslash escape (-r)
+  IFS= read -p $'\e[31;1m'"${prompt}: "$'\e[m ' -n 1 -r yn
+  echo >&2  # Ensure newline after prompt
+
+  yn="${yn:-Y}"  # Default to Yes if empty                                                                        [[ "$yn" =~ ^[Yy]$ ]]  # Explicit regex match for Y/y (return code 0 or 1)
+} 
+config_root="$HOME/.config"
+read -p "Please enter your nvim config path, relative to "${config_root}" (default is \`nvim\`): " nvim_basename
+nvim_dir="${config_root}/${nvim_basename:-"nvim"}"
+
+if [[ ! -d "${nvim_dir}" ]]; then
+  echo "${nvim_dir} does not exist."
+  if input_yn "Would you like to create it?"; then
+    mkdir -p "${nvim_dir}"
+  else
+    echo "Nothing to do, exiting..."
+    exit 42
+  fi
+fi
+
+echo "Given path: $nvim_dir"
+
+
+# mv -iv 
+

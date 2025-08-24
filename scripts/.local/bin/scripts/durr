@@ -1,0 +1,18 @@
+#!/bin/bash
+
+# Example: ./show-scripts.sh . scripts
+# INFO: first find locates all directories containing exactly target (note that wildcards work as a default). For each such directory, it runs another find to print all files and subdirectories under it (including itself).
+
+set -euo pipefail
+usage() {
+    echo "Use $(basename "$0") <start-dir> <target> to get cwd contents" >&2
+    echo "Use $(basename "$0") <target> to get cwd contents" >&2
+}
+
+if (( "$#" != "2" )); then
+    usage
+fi
+
+tree -L 1 -a -I '.git'  # show what shape of cwd is
+# find "$1" -type d -name "*$2*" -exec find {} -print \;
+find "$1" -type d -name "*$2*" -exec tree -a -I '.git' {} \;

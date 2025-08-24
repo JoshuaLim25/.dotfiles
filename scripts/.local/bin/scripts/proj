@@ -1,0 +1,74 @@
+#!/usr/bin/env bash
+
+# Usage: proj <proj_name>
+
+# This script wil (1) make a new project, and (2) add a `DESIGN_DOC.md` file for the passed in proj_name.
+
+#!/usr/bin/env bash
+set -euo pipefail
+IFS=$'\n\t'
+
+usage() { echo "Usage: $(basename "$0") <proj_lang> <proj_name>" >&2; }
+
+if [[ "$#" != 2  ]]; then
+    usage
+    exit 42
+fi
+
+projects="$HOME/spaghetti/projects/" && cd "$projects"
+
+proj_lang=$1
+proj_name=$2
+new_proj_dir="${projects}/${proj_lang}"
+
+if [[ ! -d "$proj_lang" ]]; then
+    echo "Provided language ${proj_lang} does not exist."
+    read -p "Do you wanna make it? (Y/n)" yn
+    case "$yn" in
+        [Yy]|"")  # 'y', 'Y', or just Enter
+            mkdir -p "${new_proj_dir}"
+            cd "${new_proj_dir}"
+            ;;
+        [Nn])
+            echo "Got it"
+            exit 42
+            ;;
+        *)
+            echo "Bro just answer the question"
+            exit 42
+            ;;
+    esac
+fi
+
+if [[ ! -d "${new_proj_dir}/${proj_name}" ]]; then
+    echo "Provided project name \`${proj_name}\` does not exist."
+    read -p "Do you wanna make it? (Y/n)" yn
+    case "$yn" in
+        [Yy]|"")
+            mkdir -p "${new_proj_dir}/${proj_name}"
+            ;;
+        [Nn])
+            echo "Got it"
+            exit 42
+            ;;
+        *)
+            echo "Bro just answer the question"
+            exit 42
+            ;;
+    esac
+    read -p "Design Doc? (Y/n)" yn
+    case "$yn" in
+        [Yy]|"")
+            nvim DESIGN_DOC.md
+            exit 0
+            ;;
+        [Nn])
+            echo "Got it"
+            exit 42
+            ;;
+        *)
+            echo "Bro just answer the question"
+            exit 42
+            ;;
+    esac
+fi

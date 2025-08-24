@@ -159,7 +159,7 @@ zle     -N     fzf-history-widget-accept
 bindkey -r '^R' # unbind: https://unix.stackexchange.com/questions/285208/how-to-remove-a-zsh-keybinding-if-i-dont-know-what-it-does
 bindkey '^R' fzf-history-widget-accept
 # src: https://github.com/junegunn/fzf-git.sh
-source ~/.dotfiles/scripts/fzf-git.sh
+source ~/.dotfiles/scripts/.local/bin/scripts/fzf-git.sh
 # INFO: use `bindkey -L` :) and `echo "CtrlVEsc/"`
 # https://superuser.com/questions/169920/binding-fn-delete-in-zsh-on-mac-os-x/169930#169930
 # ^G^B           # branches
@@ -176,11 +176,11 @@ alias fgit='fzf-git.sh --run'
 
 # [[ CUSTOM SCRIPTS ]] {{
 # Keybindings
-source ~/.dotfiles/scripts/set-vi-mode.sh
+source ~/.dotfiles/scripts/.local/bin/scripts/set-vi-mode.sh
 # SSH
-source ~/.dotfiles/scripts/ssh.sh
+source ~/.dotfiles/scripts/.local/bin/scripts/ssh.sh
 # Fish-like abbrevations/expansions
-source ~/.dotfiles/scripts/abbrev-alias.sh
+source ~/.dotfiles/scripts/.local/bin/scripts/abbrev-alias.sh
 # See ~/.config/systemd/user/ssh-agent.service
 export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.socket"
 # }}

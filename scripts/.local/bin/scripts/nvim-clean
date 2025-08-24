@@ -1,0 +1,46 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# This script aims to:
+# (1) just clean stuff
+# (2) additionally switch the neovim config via NVIM_APPNAME.
+# NOTE: $NVIM_APPNAME is like  adheres to the XDG config spec. So `$XDG_CONFIG` is typically `$HOME/.config`, and $NVIM_APPNAME itself is a name or relative path.
+# TLDR: using $NVIM_APPNAME=foo -> `$XDG_CONFIG/$NVIM_APPNAME`, so `~/.config/foo`
+
+config_root="$HOME/.config"
+read -p "Please enter your nvim config path, relative to "${config_root}" (default is \`nvim\`): " nvim_basename
+
+input_yn() {
+  local -r prompt="${1:-Continue? (Y/n)}"
+  local yn
+  # Read single character without field splitting (IFS=), no backslash escape (-r)
+  IFS= read -p $'\e[31;1m'"${prompt}: "$'\e[m ' -n 1 -r yn
+  echo >&2  # Ensure newline after prompt
+  
+  yn="${yn:-Y}"  # Default to Yes if empty
+  [[ "$yn" =~ ^[Yy]$ ]]  # Explicit regex match for Y/y (return code 0 or 1)
+}
+
+nvim_dir="${config_root}/${nvim_basename:-"nvim"}"
+
+# if [[ ! -d "${nvim_dir}" ]]; then
+#   echo "${nvim_dir} does not exist."
+#   if input_yn "Would you like to create it?"; then
+#     mkdir -p "${nvim_dir}" 
+#   else
+#     echo "Nothing to do, exiting..."
+#     exit 42
+#   fi
+# fi
+
+echo "Given path: $nvim_dir"
+
+# INFO:
+# data: ~/.local/share/nvim/lazy
+# state: ~/.local/state/nvim/lazy
+# lockfile: ~/.config/nvim/lazy-lock.json
+
+rm -rdf "$HOME/.local/share/${nvim_basename}" && echo "Cleaned data associated with ${nvim_dir}"
+rm -rdf "$HOME/.local/state/${nvim_basename}" && echo "Cleaned state associated with ${nvim_dir}"
+rm -rdf "$HOME/.cache/${nvim_basename}" && echo "Cleaned cache"
+rm "$HOME/.config/${nvim_basename}/lazy-lock.json"

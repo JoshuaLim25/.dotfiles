@@ -1,0 +1,57 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+# Goal of the script is to easily look at colorschemes via fzf, select, then have that applied across:
+# (1) kitty
+# (2) nvim
+# (3) tmux (maybe)
+
+# https://stackoverflow.com/questions/3349105/how-can-i-set-the-current-working-directory-to-the-directory-of-the-script-in-ba
+# NOTE: appparently won't work for OSX or Windows, in that case use: `cd "${0%/*}"`
+# https://stackoverflow.com/questions/6393551/what-is-the-meaning-of-0-in-a-bash-script 
+
+# Set to directory containing this script
+echo "$XDG_CONFIG_HOME"
+script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+
+# # Config paths
+# kitty_theme_dir="$HOME/.config/kitty/colorschemes"
+# nvim_theme_dir="$HOME/.config/nvim/lua/essential/plugins/colorschemes/"
+# tmux_theme_dir="$HOME/.config/tmux/colorschemes/"
+#
+# # Supported themes (MUST match file names / identifiers)
+# THEMES=("hybrid" "kanagawa" "nord" "gruvbox")
+#
+# # Choose theme via fzf
+# SELECTED=$(printf "%s\n" "${THEMES[@]}" | fzf --prompt="Choose colorscheme: ") || exit 1
+#
+# # === Apply to kitty ===
+# KITTY_THEME_FILE="$kitty_theme_dir/$SELECTED.conf"
+# if [[ -f "$KITTY_THEME_FILE" ]]; then
+#   kitty @ set-colors --all "$KITTY_THEME_FILE"
+#   echo "✅ Kitty theme applied: $SELECTED"
+# else
+#   echo "⚠️ Kitty theme file not found: $KITTY_THEME_FILE"
+# fi
+#
+# # === Apply to Neovim ===
+# # Assume you have one kanagawa_custom.lua that reads from environment or uses hardcoded theme
+# # You could dynamically sed in the theme name or copy over a template here if needed
+# if [[ "$SELECTED" == "hybrid" ]]; then
+#   echo "✅ Neovim Kanagawa override already uses hybrid palette"
+# else
+#   echo "⚠️ Neovim override switching not yet implemented for: $SELECTED"
+# fi
+#
+# # === Apply to tmux ===
+# if tmux info &>/dev/null; then
+#   tmux set -g @kanagawa-theme "$SELECTED"
+#   tmux run-shell "$HOME/.config/tmux/plugins/tmux-kanagawa/scripts/kanagawa.tmux" || true
+#   tmux refresh-client -S
+#   echo "✅ Tmux theme applied: $SELECTED"
+# else
+#   echo "ℹ️  Tmux not running. Skipped tmux theme update."
+# fi
+#

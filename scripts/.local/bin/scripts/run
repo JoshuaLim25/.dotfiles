@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+# Goal: Take input from user to decide what kind of file 
+
+usage() { echo "Usage: $(basename "$0")" >&2; }
+
+SDIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd) && cd "$SDIR"
+echo $SDIR
+

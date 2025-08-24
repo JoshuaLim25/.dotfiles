@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Step 1: Get list of languages from cht.sh
+lang=$(curl -s https://cht.sh/:list | fzf --prompt="Search Language: ")
+
+# Exit if no selection made
+[[ -z "$lang" ]] && exit 1
+
+# Step 2: Show the cheatsheet for the selected language
+curl -s "https://cht.sh/${lang}" | less -R
