@@ -91,6 +91,8 @@
 - `tokei`
 - `kondo-ui`
 - `postgresql`
+- `grc`
+- `github-cli`
 
 ## Sway
 
@@ -111,6 +113,18 @@
 - `swaylock`
 - `swayidle`
 
+# AUR
+- `visual-studio-code-bin`
+- `greetd`
+- `greetd-wlgreet`
+
+#### GREEETD
+- [docs](https://man.sr.ht/~kennylevinsen/greetd)
+```sh
+v /etc/greetd/config.toml
+v /etc/greetd/sway-config  # where background img stored
+enable the greetd.service
+```
 
 # Core Tools
 ## Arch

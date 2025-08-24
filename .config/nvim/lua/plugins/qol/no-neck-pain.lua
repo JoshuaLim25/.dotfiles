@@ -4,7 +4,7 @@ return {
     require('no-neck-pain').setup {
       autocmds = {
         enableOnVimEnter = true,
-        skipEnteringNoNeckPainBuffer = false, -- true if you don't want scratchpad
+        skipEnteringNoNeckPainBuffer = true, -- true if you don't want scratchpad
       },
       -- width = 70, -- higher val means smaller buffers
       width = 65,

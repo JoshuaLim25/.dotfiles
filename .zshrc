@@ -297,7 +297,6 @@ alias pkg="pacman -Qq | fzf \
 # [[ "QOL" ]]
 # alias f='fzf'
 alias f='fzf --print0 | xargs -0 --no-run-if-empty -- nvim' # and ~/.dotfiles/scripts/ff :)
-bindkey -s ^v 'nvim /usr/share/nvim/runtime/doc/**\t'
 alias dim='wlsunset -s $(date +%H:%M) -t 4000 &'
 alias pd='pushd'
 alias vdiff='nvim -d'
@@ -317,6 +316,9 @@ alias text='shuf -n25 /usr/share/dict/american-english -o test.txt'
 # https://www.reddit.com/r/golang/comments/uzrbw3/best_practice_do_you_use_the_go_compiler_from/
 # TODO: hardcoded binary. See script in ~/.local/bin/scripts/goupdate
 alias goupdate='sudo rm -rf /usr/local/go && curl -L https://go.dev/dl/go1.18.2.linux-amd64.tar.gz | sudo tar zx -C /usr/local/ go'
+
+# [[ GRC (COLORIZED OUTPUT) ]]
+alias go='grc go'
 # }}
 
 # [[ TESTING RANDOM IDEAS ]] {{
@@ -325,25 +327,27 @@ alias gitplay='cd ~/spaghetti/git_playground/'
 alias goplay='cd /tmp && (nvim main.go)'
 alias vv='cd /tmp && (nvim random.md)'  # e.g., changelog for big commits
 # }}
-#
-# [[ REFERENCES ]] {{
-# [[ LANGUAGES ]]
-alias refbash="nvim ~/spaghetti/langs/bash/bashics.sh"
-alias bbash="nvim ~/spaghetti/langs/bash/bad_bash.sh"
-alias refcpp="nvim ~/spaghetti/langs/c++/ref.md"
-alias refrust="nvim ~/spaghetti/langs/rust/reference-code/help.rs"
-alias refgo="nvim ~/spaghetti/langs/go/golang-cheatsheet.md"
-alias reflua="nvim ~/spaghetti/langs/lua/basics.md"
-# [[ TOOLS ]]
-alias refvm="nvim ~/spaghetti/tools/vm-ref.md"
-alias refjson="nvim ~/spaghetti/tools/json.md"
-alias refcron="nvim ~/spaghetti/tools/cron.sh"
-alias refmake="nvim ~/spaghetti/tools/Makefile"
-alias refdocker="nvim ~/spaghetti/tools/docker-ref.md"
-alias refgit="nvim ~/spaghetti/tools/git.md"
-alias refvim="nvim ~/spaghetti/tools/vim.md"
-alias refgrep="nvim ~/spaghetti/tools/grep.md"
-alias refuml="nvim ~/spaghetti/tools/uml.md"
-alias refentr="nvim ~/spaghetti/tools/entr.md"
-alias reftest="nvim ~/spaghetti/tools/testing.md"
+
+# [[ REFS ]] {{
+# [[ SIMPLER SOLNS ]]
+# bindkey -s ^v 'nvim ~/spaghetti/refs/**\t'
+# bindkey -s '^v' 'nvim $(find ~/spaghetti/refs/ -type f | fzf --with-nth=-1 --delimiter=/)\n'
+
+# [[ ONLY BASENAME ]]
+# fzf-nvim-widget() {
+#   local file
+#   file=$(find ~/spaghetti/refs/ -type f | fzf --with-nth=-1 --delimiter=/) || return
+#   [[ -n $file ]] && BUFFER="nvim $file" && zle accept-line
+# }
+# zle -N fzf-nvim-widget
+# bindkey '^v' fzf-nvim-widget
+
+# [[ INCLUDES DIRPATH ]]
+fzf-nvim-widget() {
+  local file
+  file=$(find ~/spaghetti/refs -type f -printf "%P\n" | fzf) || return
+  [[ -n $file ]] && BUFFER="nvim ~/spaghetti/refs/$file" && zle accept-line
+}
+zle -N fzf-nvim-widget
+bindkey '^v' fzf-nvim-widget
 # }}

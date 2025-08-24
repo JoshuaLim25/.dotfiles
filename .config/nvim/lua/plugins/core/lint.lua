@@ -1,22 +1,23 @@
 return {
   {
-    'mfussenegger/nvim-lint',
-    event = { 'BufReadPre', 'BufNewFile' },
+    "mfussenegger/nvim-lint",
+    event = { "BufReadPre", "BufNewFile" },
     config = function()
-      local lint = require 'lint'
+      local lint = require("lint")
       lint.linters_by_ft = {
-        -- go = { 'golangci-lint' },
+        go = { "golangcilint" }, -- no hyphen :) so fun and awesome and not annoying
+        sh = { "bash", "shellcheck" },
         -- markdown = { 'markdownlint' },
       }
 
       -- TODO: https://github.com/mfussenegger/nvim-lint?tab=readme-ov-file#customize-built-in-linters
       -- INFO: to allow other plugins to add linters to require('lint').linters_by_ft,
+      -- seems to have good ones: https://github.com/Integralist/nvim/blob/db3713f6dceec75a4081216999c08297d891bf2c/lua/plugins/lint-and-format.lua
       -- instead set linters_by_ft like this:
       -- lint.linters_by_ft = lint.linters_by_ft or {}
       -- lint.linters_by_ft['markdown'] = { 'markdownlint' }
       --
       -- NOTE: However this will enable a set of *default linters*,
-      -- However, note that this will enable a set of default linters,
       -- which will cause errors unless these tools are available:
       -- {
       --   clojure = { "clj-kondo" },
@@ -45,8 +46,8 @@ return {
 
       -- Create autocommand which carries out the actual linting
       -- on the specified events.
-      local lint_augroup = vim.api.nvim_create_augroup('lint', { clear = true })
-      vim.api.nvim_create_autocmd({ 'BufEnter', 'BufWritePost', 'InsertLeave' }, {
+      local lint_augroup = vim.api.nvim_create_augroup("lint", { clear = true })
+      vim.api.nvim_create_autocmd({ "BufEnter", "BufWritePost", "InsertLeave" }, {
         group = lint_augroup,
         callback = function()
           -- Only run the linter in buffers that you can modify in order to

@@ -9,8 +9,8 @@ return {
         -- :help oil-columns
         columns = {
           'icon',
-          { 'permissions', highlight = "Identifier" },
-          -- "size",
+          -- { 'permissions', highlight = "Identifier" },
+          -- { "size", highlight = "String" },
         },
         -- Window-local options to use for oil buffers
         win_options = {
