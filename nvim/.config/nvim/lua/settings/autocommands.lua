@@ -27,6 +27,19 @@ vim.api.nvim_create_autocmd("BufReadPost", {
 	end,
 })
 
+-- https://github.com/wfxr/dotfiles/blob/master/vim/nvim/lua/config/commands.lua
+-- Function to remove trailing spaces
+local function strip_trailing_spaces()
+  -- Save the current position of the cursor
+  local pos = vim.fn.getpos(".")
+
+  vim.cmd([[%s/\s\+$//e]])
+
+  -- Restore the cursor position
+  vim.fn.setpos(".", pos)
+end
+vim.api.nvim_create_user_command("StripTrailingSpaces", strip_trailing_spaces, {})
+
 -- [[ PREVENT ACCIDENTAL WRITES TO BUFFERS THAT SHOULDN'T BE EDITED ]]
 vim.api.nvim_create_autocmd("BufRead", {
 	pattern = { "*.orig", "*.pacnew" },
@@ -132,6 +145,37 @@ end
 -- 			vim.notify(string.format("Moved scratchpad from %s -> %s", args.file, dest), vim.log.levels.INFO)
 -- 		end
 -- 	end,
+-- })
+
+
+-- [[ START JDTLS FOR JAVA ]]
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = 'java',
+  group = vim.api.nvim_create_augroup('jdtls-setup', { clear = true }),
+  callback = function()
+    require('jdtls.jdtls_setup').setup()
+  end,
+})
+
+-- [[ SWITCH COLORSCHEME FOR MARKDOWN  ]]
+-- vim.api.nvim_create_autocmd({"BufEnter", "BufWinEnter"}, {
+--   pattern = "*.md",
+--   callback = function()
+--     vim.o.background = "light"
+--     vim.cmd("colorscheme solarized")
+--     vim.fn.system("kitty @ set-colors ~/.config/kitty/solarized-light.conf")
+--     vim.fn.system("tmux source-file ~/.tmux/solarized-light.conf")
+--   end
+-- })
+-- 
+-- vim.api.nvim_create_autocmd({"BufLeave", "BufWinLeave"}, {
+--   pattern = "*.md",
+--   callback = function()
+--     vim.o.background = "dark"
+--     vim.cmd("colorscheme kanagawa")
+--     vim.fn.system("kitty @ set-colors ~/.config/kitty/kanagawa.conf")
+--     vim.fn.system("tmux source-file ~/.tmux/kanagawa.conf")
+--   end
 -- })
 
 return M

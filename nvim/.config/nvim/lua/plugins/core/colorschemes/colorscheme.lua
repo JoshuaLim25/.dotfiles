@@ -1,7 +1,7 @@
 return {
   {
-    -- sexy colors
-    'rebelot/kanagawa.nvim',
+    -- sexy colors (Tomorrow Night fork)
+    'warmgarlicbread/kanagawa.nvim',
     priority = 1000,
     init = function()
       require('kanagawa').setup {
@@ -17,29 +17,8 @@ return {
         dimInactive = false,
         terminalColors = true,
         colors = {
-          palette = {
-            -- waveRed = '#a54242',
-            waveRed = '#cc6666',
-            surimiOrange = '#de935f',
-            roninYellow = '#f0c674',
-            springGreen = '#b5bd68',
-            waveAqua2 = '#87a987',
-            springBlue = '#9fb5c9',
-            crystalBlue = '#81a2be',
-            oniViolet = '#b294bb',
-            sakuraPink = '#c4746e',
-            waveAqua1 = '#7AA89F',
-            oldWhite = '#707880',
-            fujiWhite = '#c5c8c6',
-            sumiInk0 = '#1d1f21',
-            sumiInk1 = '#1d1f21',
-            sumiInk2 = '#1d1f21',
-            sumiInk3 = '#1d1f21',
-            sumiInk4 = '#282a2e',
-            sumiInk5 = '#373b41',
-            waveBlue1 = '#2D4F67',
-            waveBlue2 = '#223249',
-          },
+          -- Palette overrides are now in the fork's colors.lua
+          -- Only theme-specific overrides remain here
           theme = {
             wave = {
               ui = {
@@ -85,15 +64,14 @@ return {
                 statement = '#b294bb',
                 keyword = '#b294bb',
                 operator = '#f0c674',
-                -- preproc = '#a54242',
                 preproc = '#cc6666',
-                type = '#87a987',
+                type = '#9fb5c9',
                 regex = '#f0c674',
                 deprecated = '#707880',
                 comment = '#707880',
                 punct = '#c5c8c6',
                 special1 = '#9fb5c9',
-                special2 = '#a54242',
+                special2 = '#cc6666',
                 special3 = '#cc6666',
               },
               diag = {
@@ -147,6 +125,9 @@ return {
             NormalDark = { fg = theme.ui.fg_dim, bg = theme.ui.bg_m3 },
             LazyNormal = { bg = theme.ui.bg_m3, fg = theme.ui.fg_dim },
             MasonNormal = { bg = theme.ui.bg_m3, fg = theme.ui.fg_dim },
+
+            -- for weird stuff like s[m[d]]
+            ["@type.go"] = { fg = theme.ui.fg }, -- force Go "types" like matrix → white
 
             -- Markdown-specific
             ['@markup.link.url.markdown_inline'] = { link = 'Special' }, -- (url)

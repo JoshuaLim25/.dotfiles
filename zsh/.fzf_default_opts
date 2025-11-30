@@ -1,0 +1,198 @@
+#!/usr/bin/env bash
+
+
+export FZF_TMUX_OPTS=" -p90%,80% "
+export FZF_DEFAULT_COMMAND="fd --strip-cwd-prefix --hidden --follow --exclude '.git'"
+
+# [[ COLORSCHEME VARIATIONS ]]
+
+# export FZF_DEFAULT_OPTS="--height 50% --layout reverse --border --color=hl:#7AA89F"
+# export FZF_DEFAULT_OPTS="--height 80% --layout reverse --border --color=hl:#7AA89F --preview-window=right:60% --bind 'ctrl-d:preview-page-down' --bind 'ctrl-u:preview-page-up' --bind 'CTRL-O:toggle-preview-wrap'"
+
+# # [[ OG ]]
+# export FZF_DEFAULT_OPTS="
+#   --height=80% --layout=reverse --border
+#   --preview-window=right:60%
+#   --bind='ctrl-d:preview-page-down,ctrl-u:preview-page-up,CTRL-O:toggle-preview-wrap'
+#   --color='dark,\
+# fg:#c5c8c6,\
+# fg+:#b5bd68:regular,\
+# hl:#f0c674,\
+# hl+:#cc6666,\
+# bg:#1d1f21,\
+# bg+:#43436c,\
+# gutter:-1,\
+# prompt:#9fb5c9,\
+# pointer:#f0c674,\
+# marker:#f0c674,\
+# info:#7AA89F,\
+# border:#81a2be,\
+# separator:#282a2e'
+# "
+
+# # [[ MINIMAL - NO PREVIEW, COMPACT HEIGHT, CLEAN BORDERS ]]
+# export FZF_DEFAULT_OPTS="
+#   --height=40% 
+#   --layout=reverse 
+#   --border=sharp
+#   --info=inline
+#   --margin=1
+#   --padding=1
+#   --no-preview
+#   --bind='ctrl-/:toggle-preview'
+#   --prompt='▶ '
+#   --pointer='→'
+#   --color='
+#     fg:#DCD7BA,
+#     fg+:#DCD7BA,
+#     bg:#1F1F28,
+#     bg+:#2A2A37,
+#     hl:#7E9CD8,
+#     hl+:#7FB4CA,
+#     info:#76946A,
+#     marker:#cc6666,
+#     prompt:#938AA9,
+#     spinner:#76946A,
+#     pointer:#cc6666,
+#     header:#7E9CD8,
+#     border:#54546D'
+# "
+
+# [[ THIS ONE ]]
+export FZF_DEFAULT_OPTS="
+  --height=40%
+  --layout=reverse
+  --border=sharp
+  --info=inline
+  --margin=1
+  --padding=1
+  --no-preview
+  --prompt='▶ '
+  --pointer='→'
+  --marker='✔'
+  --bind='ctrl-/:toggle-preview'
+  --bind='ctrl-d:preview-page-down,ctrl-u:preview-page-up'
+  --bind='f1:toggle-preview'
+  --bind='f2:change-preview-window(right:55%|bottom:50%|hidden)'
+  --bind='ctrl-a:select-all,ctrl-x:deselect-all'
+"
+
+# adapted using tomorrow-night colors
+_FZF_COLOR=(
+    fg:#c5c8c6
+    fg+:#c5c8c6:bold
+    bg:#1d1f21
+    bg+:#373b41
+    hl:#7E9CD8
+    hl+:#7FB4CA
+    info:#b5bd68
+    marker:#b5bd68
+    prompt:#b294bb
+    spinner:#5e8d87
+    pointer:#f0c674
+    header:#81a2be
+    border:#707880
+    gutter:#1d1f21
+    separator:#282a2e
+    label:#81a2be
+    query:#c5c8c6:regular
+)
+
+# https://github.com/junegunn/fzf/wiki/Color-schemes#tomorrow-night
+# _FZF_COLOR=(
+#     fg:#c5c8c6:regular
+#     fg+:#c5c8c6:regular
+#     bg:#1d1f21
+#     bg+:#373b41
+#     selected-fg:#f0c674:regular
+#     hl:#b294bb
+#     hl+:#b294bb
+#     info:#969896
+#     marker:#f0c674
+#     prompt:#b5bd68
+#     spinner:#8abeb7
+#     pointer:#81a2be
+#     header:#81a2be
+#     footer:#a3685a
+#     gutter:#1d1f21
+#     border:#373b41
+#     scrollbar:#969896
+#     preview-scrollbar:#969896
+#     preview-label:#81a2be
+#     label:#de935f
+#     query:#c5c8c6:regular
+#     preview-border:#373b41
+#     preview-scrollbar:#969896
+#     separator:#373b41
+# )
+
+export FZF_DEFAULT_OPTS="${FZF_DEFAULT_OPTS} --color=\"${_FZF_COLOR[*]}\""
+
+# fg: the text for everything
+# fg+: the highlighted text
+# bg: general background color
+# bg+: highlight on cursor line
+# hl: color of matched pattern
+# hl+: highlight of matched pattern on cursor line
+
+
+# # [[ CLASSIC LAYOUT WITH SEARCH AT BOTTOM, PREVIEW ON RIGHT ]]
+# export FZF_DEFAULT_OPTS="
+#   --height=90%
+#   --layout=default
+#   --border=bold
+#   --preview-window=right:55%:border-left
+#   --info=inline
+#   --prompt='> '
+#   --pointer='▸'
+#   --marker='●'
+#   --bind='ctrl-d:preview-page-down,ctrl-u:preview-page-up'
+#   --bind='f1:toggle-preview'
+#   --bind='f2:change-preview-window(right:55%|bottom:50%|hidden)'
+#   --bind='ctrl-a:select-all,ctrl-x:deselect-all'
+#   --color='fg:#d4d4d4,bg:#1e1e1e,hl:#569cd6,fg+:#ffffff,bg+:#3a3a3a,hl+:#9cdcfe,info:#608b4e,marker:#dcdcaa,prompt:#c586c0,spinner:#569cd6,pointer:#ce9178,header:#569cd6,border:#464647'
+# "
+
+export FZF_ALT_C_COMMAND="fd --type=d --hidden --strip-cwd-prefix --exclude '.git'"
+# https://github.com/junegunn/fzf/wiki/Configuring-shell-key-bindings#ctrl-t
+export FZF_CTRL_T_OPTS="--select-1 --exit-0 --preview 'bat --color=always -n --line-range :500 {}'"
+export FZF_ALT_C_OPTS="--select-1 --exit-0 --preview 'eza --icons=always --tree --color=always {} | head -200'"
+# export FZF_ALT_C_OPTS="--preview 'tree -C {} | head -200'"
+# src: https://github.com/junegunn/fzf/wiki/Configuring-shell-key-bindings#full-command-on-preview-window
+export FZF_CTRL_R_OPTS="--preview 'echo {}' --preview-window down:3:hidden:wrap --bind '?:toggle-preview'"
+fzf-history-widget-accept() {
+  fzf-history-widget
+  zle accept-line
+}
+zle     -N     fzf-history-widget-accept
+bindkey -r '^R' # unbind: https://unix.stackexchange.com/questions/285208/how-to-remove-a-zsh-keybinding-if-i-dont-know-what-it-does
+bindkey '^R' fzf-history-widget-accept
+
+# src: https://github.com/junegunn/fzf-git.sh
+source ~/.dotfiles/scripts/.local/bin/scripts/fzf-git.sh
+# INFO: use `bindkey -L` :) and `echo "CtrlVEsc/"`
+# https://superuser.com/questions/169920/binding-fn-delete-in-zsh-on-mac-os-x/169930#169930
+# ^G^B           # branches
+# ^G^E           # each_ref
+# ^G^F           # files
+# ^G^H           # hashes
+# ^G^L           # lreflogs
+# ^G^R           # remotes
+# ^G^S           # stashes
+# ^G^T           # tags
+# ^G^W           # worktrees
+alias fgit='fzf-git.sh --run'
+# src: https://github.com/junegunn/fzf-git.sh
+source ~/.dotfiles/scripts/.local/bin/scripts/fzf-git.sh
+# INFO: use `bindkey -L` :) and `echo "CtrlVEsc/"`
+# https://superuser.com/questions/169920/binding-fn-delete-in-zsh-on-mac-os-x/169930#169930
+# ^G^B           # branches
+# ^G^E           # each_ref
+# ^G^F           # files
+# ^G^H           # hashes
+# ^G^L           # lreflogs
+# ^G^R           # remotes
+# ^G^S           # stashes
+# ^G^T           # tags
+# ^G^W           # worktrees
+alias fgit='fzf-git.sh --run'

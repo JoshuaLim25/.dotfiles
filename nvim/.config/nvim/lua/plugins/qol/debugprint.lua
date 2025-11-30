@@ -55,6 +55,18 @@ return {
                 -- mid_var = '%#v\\n", ',
                 right_var = ")",
             },
+            -- Default: System.err.println("DEBUG[1]: ClassName.java:34: sum=" + sum);
+            --                  left_var                     Plugin Gen    mid_var   Var  right_var
+            -- |-------------------------------------------| |----------| |--------| |---| |-----|
+            --  System.err.println(String.format("DEBUG... :   sum=         %s",      sum   ));
+            ["java"] = {
+                left_var = 'System.err.println(String.format("',
+                -- mid_var handles the format specifier, closing the quote, and the comma.
+                -- We use %s because it works for ints, objects, and strings.
+                -- Java will throw an exception if you use %d on a String, but %s is universal.
+                mid_var = '%s", ', 
+                right_var = '));',
+            },
         }
     },  -- opts
 }

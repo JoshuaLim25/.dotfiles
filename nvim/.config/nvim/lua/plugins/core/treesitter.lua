@@ -8,7 +8,7 @@ return {
         require('nvim-treesitter.install').prefer_git = true,
         -- https://github.com/nvim-treesitter/nvim-treesitter?tab=readme-ov-file#modules
         require'nvim-treesitter.configs'.setup {
-            ensure_installed = { "go", "bash", "cpp", "diff", "c", "lua", "vim", "vimdoc", "markdown", "markdown_inline", "gitcommit", "git_rebase", "gitattributes", "gitignore", "rust", "python", "html", "css", "yaml", "json", "toml", "dockerfile", "make", "sql" },
+            ensure_installed = { "go", "bash", "cpp", "diff", "c", "java", "lua", "vim", "vimdoc", "markdown", "markdown_inline", "gitcommit", "git_rebase", "gitattributes", "gitignore", "rust", "python", "html", "css", "yaml", "json", "toml", "dockerfile", "make", "sql" },
             sync_install = false,
             auto_install = false,
             -- ignore_install = { "javascript" },

@@ -5,7 +5,7 @@ return {
     config = function()
       local lint = require("lint")
       lint.linters_by_ft = {
-        go = { "golangcilint" }, -- no hyphen :) so fun and awesome and not annoying
+        -- go = { "golangcilint" }, -- no hyphen :) so fun and awesome and not annoying
         sh = { "bash", "shellcheck" },
         -- markdown = { 'markdownlint' },
       }

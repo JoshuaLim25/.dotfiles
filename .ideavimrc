@@ -1,0 +1,519 @@
+"" .ideavimrc - Ported from Josh's Neovim config
+"" For IntelliJ IDEA with IdeaVim plugin
+"" ========================================================
+
+"" Leader Key (must come before plugin configs)
+"" ========================================================
+let mapleader=" "
+
+""" Plugins (IdeaVim emulated + requires separate plugin installs)
+""" ========================================================
+"" Bundled with IdeaVim - just enable:
+"set surround                    " cs'" ds" ys etc
+"set commentary                  " gcc, gc{motion}
+"set highlightedyank             " visual feedback on yank
+"set argtextobj                  " aa/ia for function arguments
+"set textobj-entire              " ae/ie for entire buffer
+"set ReplaceWithRegister         " gr{motion} to replace with register
+"set exchange                    " cx{motion} to exchange
+"set matchit                     " % extended matching
+"set vim-paragraph-motion        " better { } paragraph motions
+"set textobj-indent              " ai/ii for indent blocks
+"set mini-ai                     " aq/iq for any quotes, ab/ib for any brackets
+"set peekaboo                    " see register contents on " and @
+
+"" Requires plugin install from JetBrains Marketplace:
+"" - IdeaVim-EasyMotion (also needs AceJump)
+"" - IdeaVim-Sneak
+"" - IdeaVim-Quickscope
+"" - Which-Key
+"set easymotion
+"set sneak
+"set quickscope                  " must come after sneak
+"set which-key
+"set notimeout                   " for easymotion
+
+"" Which-Key configuration
+"let g:WhichKey_FontSize = 16
+"let g:WhichKey_CommandColor = "#7E9CD8"
+"let g:WhichKey_PrefixColor = "#957FB8"
+"let g:WhichKey_SortOrder = "by_key_prefix_first"
+"
+"" Argtextobj - extend to other bracket types
+"let g:argtextobj_pairs="[:],(:),<:>"
+"
+"" Highlighted yank duration
+"let g:highlightedyank_highlight_duration = "250"
+
+"" Basic Settings (from your options.lua)
+"" ========================================================
+set clipboard+=unnamedplus      " sync with system clipboard
+set visualbell                  " no beeping
+set showmode                    " show mode in status bar
+set showcmd                     " show partial command
+set number                      " line numbers
+set relativenumber              " relative line numbers
+
+" Search settings
+set hlsearch                    " highlight search
+set incsearch                   " incremental search
+set ignorecase                  " case insensitive...
+set smartcase                   " ...unless uppercase used
+set wrapscan                    " wrap around file
+
+" Scroll/cursor settings
+set scrolloff=999               " keep cursor centered (matches your setting)
+
+" IdeaVim-specific settings
+set ideajoin                    " smart J that uses IDE's join
+set idearefactormode=keep       " keep mode during refactoring
+set ideastatusicon=gray
+
+"" Handler Configuration (Vim vs IDE)
+"" ========================================================
+" Let Vim handle these
+sethandler <C-d> a:vim
+sethandler <C-u> a:vim
+sethandler <C-h> a:vim
+sethandler <C-j> a:vim
+sethandler <C-k> a:vim
+sethandler <C-l> a:vim
+sethandler <C-v> a:vim
+sethandler <C-w> a:vim
+sethandler <C-e> a:vim
+sethandler <C-r> a:vim
+sethandler <C-o> a:vim
+sethandler <C-i> a:vim
+sethandler <C-[> a:vim
+sethandler <C-]> a:vim
+
+"" Essential Mappings (from your keymaps.lua)
+"" ========================================================
+nnoremap H ^
+nnoremap L $
+vnoremap H ^
+vnoremap L $
+onoremap H ^
+onoremap L $
+
+nnoremap Y y$
+vnoremap Y y$
+onoremap Y y$
+
+" Your <C-e> -> $% (go to end then match)
+nnoremap <C-e> $%
+vnoremap <C-e> $%
+
+" Easier change/delete to character
+nnoremap cu ct_
+nnoremap du dt_
+nnoremap c. ct.
+nnoremap d. dt.
+nnoremap c" ct"
+nnoremap d" dt"
+nnoremap c' ct'
+nnoremap d' dt'
+
+" Visual mode comma/period to t motion
+xnoremap , t,
+xnoremap . t.
+
+" Overload enter to accept completion with what I'm used to
+imap <C-y> <Action>(EditorChooseLookupItem)
+
+"" QoL Mappings
+"" ========================================================
+
+" Move lines up/down in visual mode (your exact mapping)
+vnoremap J :action MoveLineDown<CR>
+vnoremap K :action MoveLineUp<CR>
+
+" Join lines without moving cursor (your mzJ`z)
+nnoremap J mzJ`z
+
+" Duplicate line and comment original (like your yc)
+nmap yc yygccp
+
+" Sensible visual I/A for line selection
+" (IdeaVim handles this reasonably well by default)
+
+" Global substitution on word under cursor (your S mapping)
+nnoremap S :%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>
+
+" Stay in indent mode (your exact mapping)
+vnoremap < <gv
+vnoremap > >gv
+
+" Vertical movement with centering (your exact mapping)
+nnoremap <C-d> <C-d>zz
+nnoremap <C-u> <C-u>zz
+
+" Center search results (your exact mapping)
+nnoremap n nzzzv
+nnoremap N Nzzzv
+nnoremap * *zz
+nnoremap # #zz
+nnoremap g* g*zz
+
+"" Toggle Mappings
+"" ========================================================
+
+" Clear search highlight
+nnoremap <Esc> :nohlsearch<CR>
+
+"" Copy/Paste Improvements
+"" ========================================================
+
+" Paste from yank register (your exact mapping)
+nnoremap <leader>p "0p
+xnoremap <leader>p "0p
+
+" Black hole register for cc
+nnoremap cc "_cc
+
+" Select last pasted/changed text (your exact mapping)
+nnoremap <leader>v `[V`]
+
+" Select entire buffer (your gG mapping)
+nnoremap gG gg<S-v>G
+
+
+"  ========================================================
+"" Idea stuff now
+"" ========================================================
+
+"" Misc.
+"" ========================================================
+" leetcode brain rot
+nnoremap <C-'> :action Run<CR>
+" TODO: fix these
+nnoremap <leader>th :action Toggle Inlay Hints Globally<CR>
+nnoremap <leader>R :action RunContextConfiguration<CR>
+"nnoremap <leader>th <Action>(Toggle Inlay Hints Globally)
+
+
+"" Buffer/Tab Navigation
+"" ========================================================
+
+" Buffer switching (mapped to IDE tabs)
+nnoremap <leader>j :action NextTab<CR>
+nnoremap <leader>k :action PreviousTab<CR>
+nnoremap <leader>bd :action CloseContent<CR>
+nnoremap <leader>; :action Switcher<CR>
+
+" Window/split navigation (your exact mappings)
+nnoremap <C-h> <C-w>h
+nnoremap <C-l> <C-w>l
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+
+"" IDE Actions - Navigation (Telescope-like)
+"" ========================================================
+
+" File navigation
+nmap <leader>ff <Action>(GotoFile)
+nmap <leader>fo <Action>(RecentFiles)
+nmap <leader>fg <Action>(FindInPath)
+nmap <leader><leader> <Action>(Switcher)
+nmap <leader>fl <Action>(RecentLocations)
+
+" Symbol/code navigation
+nmap <leader>fs <Action>(GotoSymbol)
+nmap <leader>fc <Action>(GotoClass)
+
+" Search everywhere (like Telescope)
+nmap <leader>/ <Action>(SearchEverywhere)
+nmap <leader>sa <Action>(GotoAction)
+
+"" IDE Actions - LSP-like
+"" ========================================================
+
+" Go to definition/references
+nmap gd <Action>(GotoDeclaration)
+nmap gD <Action>(GotoTypeDeclaration)
+" so gi still works
+nmap gI <Action>(GotoImplementation)
+nmap gr <Action>(ShowUsages)
+nmap gy <Action>(GotoTypeDeclaration)
+
+" Hover/documentation
+nmap K <Action>(QuickJavaDoc)
+nmap <leader>i <Action>(QuickJavaDoc)
+
+" Signature help
+imap <C-s> <Action>(ParameterInfo)
+
+" Code actions / quick fixes
+nmap <leader>ca <Action>(ShowIntentionActions)
+nmap <leader>qf <Action>(ShowIntentionActions)
+
+" Rename (like LSP rename)
+nmap <leader>rn <Action>(RenameElement)
+
+" Diagnostics/errors
+nmap ]d <Action>(GotoNextError)
+nmap [d <Action>(GotoPreviousError)
+nmap <leader>e <Action>(ShowErrorDescription)
+"
+""" IDE Actions - Refactoring
+""" ========================================================
+"
+"nmap <leader>rm <Action>(ExtractMethod)
+"nmap <leader>rv <Action>(IntroduceVariable)
+"nmap <leader>rf <Action>(IntroduceField)
+"nmap <leader>rc <Action>(IntroduceConstant)
+"nmap <leader>ri <Action>(Inline)
+"nmap <leader>rs <Action>(ChangeSignature)
+"nmap <leader>rr <Action>(Refactorings.QuickListPopupAction)
+"
+""" IDE Actions - Code Generation
+""" ========================================================
+"
+"nmap <leader>cg <Action>(Generate)
+"nmap <leader>co <Action>(OverrideMethods)
+"nmap <leader>ci <Action>(ImplementMethods)
+"
+""" IDE Actions - Run/Debug
+""" ========================================================
+"
+"nmap <leader>dr <Action>(Run)
+"nmap <leader>dd <Action>(Debug)
+"nmap <leader>ds <Action>(Stop)
+"nmap <leader>db <Action>(ToggleLineBreakpoint)
+"nmap <leader>dc <Action>(Resume)
+"nmap <leader>do <Action>(StepOver)
+"nmap <leader>di <Action>(StepInto)
+"nmap <leader>du <Action>(StepOut)
+"nmap <leader>de <Action>(EvaluateExpression)
+"
+""" IDE Actions - Git (like fugitive/gitsigns)
+""" ========================================================
+"
+"nmap <leader>gc <Action>(CheckinProject)
+"nmap <leader>gs <Action>(ActivateVersionControlToolWindow)
+"nmap <leader>gb <Action>(Git.Branches)
+"nmap <leader>gh <Action>(Vcs.ShowTabbedFileHistory)
+"nmap <leader>ga <Action>(Annotate)
+"nmap <leader>gp <Action>(Vcs.Push)
+"nmap <leader>gl <Action>(Vcs.Show.Log)
+"
+"" Hunk navigation (like gitsigns)
+"nmap ]c <Action>(VcsShowNextChangeMarker)
+"nmap [c <Action>(VcsShowPrevChangeMarker)
+"nmap <leader>hr <Action>(Vcs.RollbackChangedLines)
+"nmap <leader>hp <Action>(VcsShowCurrentChangeMarker)
+"
+""" IDE Actions - Display/View
+""" ========================================================
+"
+"nmap <leader>tz <Action>(ToggleZenMode)
+"nmap <leader>td <Action>(ToggleDistractionFreeMode)
+"nmap <leader>tf <Action>(ToggleFullScreen)
+"
+""" IDE Actions - Window Splits
+""" ========================================================
+"
+"nmap <leader>wv <Action>(SplitVertically)
+"nmap <leader>ws <Action>(SplitHorizontally)
+"nmap <leader>wu <Action>(Unsplit)
+"nmap <leader>wm <Action>(MoveEditorToOppositeTabGroup)
+"nmap <leader>wo <Action>(UnsplitAll)
+"
+""" IDE Actions - File Explorer (NERDTree-like)
+""" ========================================================
+"
+"nmap <leader>x :NERDTreeToggle<CR>
+"nmap <leader>nf :NERDTreeFind<CR>
+"
+""" IDE Actions - Folding
+""" ========================================================
+"
+"nmap za <Action>(ExpandCollapseToggleAction)
+"nmap zc <Action>(CollapseRegion)
+"nmap zo <Action>(ExpandRegion)
+"nmap zC <Action>(CollapseAllRegions)
+"nmap zO <Action>(ExpandAllRegions)
+"nmap zm <Action>(CollapseAllRegions)
+"nmap zr <Action>(ExpandAllRegions)
+"
+""" IDE Actions - Method Navigation (like ]m [m)
+""" ========================================================
+"
+nmap [f <Action>(MethodUp)
+nmap ]f <Action>(MethodDown)
+"
+""" IDE Actions - Testing
+""" ========================================================
+"
+"nmap <leader>tt <Action>(RunClass)
+"nmap <leader>tf <Action>(RerunFailedTests)
+"nmap <leader>tl <Action>(Rerun)
+"nmap <leader>gt <Action>(GotoTest)
+"
+""" EasyMotion Mappings
+""" ========================================================
+"
+"" Your leader-based easymotion
+"map <leader>s <Plug>(easymotion-s2)
+"map <leader>f <Plug>(easymotion-f)
+"map <leader>F <Plug>(easymotion-F)
+"
+""" Popup Navigation
+""" ========================================================
+"
+"" Navigate completion menu with C-j/C-k
+"inoremap <C-j> <Action>(PopupMenu-selectNext)
+"inoremap <C-k> <Action>(PopupMenu-selectPrev)
+"
+""" Insert Mode Escape
+""" ========================================================
+"
+"" jk to escape (popular alternative)
+"inoremap jk <Esc>
+"
+""" Terminal (like your floating terminal)
+""" ========================================================
+"
+"nmap <leader>nt <Action>(ActivateTerminalToolWindow)
+"
+""" Misc Useful Actions
+""" ========================================================
+"
+"" Reload .ideavimrc
+"nmap <leader>R :source ~/.ideavimrc<CR>
+"
+"" Open settings
+"nmap <leader>, <Action>(ShowSettings)
+"
+"" Format code (like your format on save alternative)
+"nmap <leader>lf <Action>(ReformatCode)
+"vmap <leader>lf <Action>(ReformatCode)
+"
+"" Optimize imports
+"nmap <leader>lo <Action>(OptimizeImports)
+"
+"" Close all but current
+"nmap <leader>bo <Action>(CloseAllEditorsButActive)
+"
+"" Find and replace in file
+"nmap <leader>sr <Action>(Replace)
+"nmap <leader>sR <Action>(ReplaceInPath)
+"
+"" Build
+"nmap <leader>bb <Action>(BuildProject)
+"nmap <leader>br <Action>(RebuildProject)
+"
+"" Quick documentation
+"nmap <leader>K <Action>(ExternalJavaDoc)
+"
+"" Structure popup (like Telescope symbols)
+"nmap <leader>o <Action>(FileStructurePopup)
+"
+"" Select in project view (like reveal in tree)
+"nmap <leader>sp <Action>(SelectInProjectView)
+"
+""" Which-Key Descriptions
+""" ========================================================
+"
+"let g:WhichKeyDesc_leader = "<leader> Leader"
+"
+"" File navigation group
+"let g:WhichKeyDesc_file = "<leader>f File/Find"
+"let g:WhichKeyDesc_file_find = "<leader>ff Find file"
+"let g:WhichKeyDesc_file_grep = "<leader>fg Find in files (grep)"
+"let g:WhichKeyDesc_file_buffers = "<leader>fb Buffers"
+"let g:WhichKeyDesc_file_recent = "<leader>fr Recent files"
+"let g:WhichKeyDesc_file_locations = "<leader>fl Recent locations"
+"let g:WhichKeyDesc_file_symbols = "<leader>fs Symbols"
+"let g:WhichKeyDesc_file_class = "<leader>fc Classes"
+"
+"" Goto group
+"let g:WhichKeyDesc_goto = "<leader>g Go to / Git"
+"let g:WhichKeyDesc_goto_commit = "<leader>gc Git commit"
+"let g:WhichKeyDesc_goto_status = "<leader>gs Git status"
+"let g:WhichKeyDesc_goto_branches = "<leader>gb Git branches"
+"let g:WhichKeyDesc_goto_history = "<leader>gh File history"
+"let g:WhichKeyDesc_goto_annotate = "<leader>ga Git annotate"
+"let g:WhichKeyDesc_goto_test = "<leader>gt Go to test"
+"
+"" Refactor group
+"let g:WhichKeyDesc_refactor = "<leader>r Refactor"
+"let g:WhichKeyDesc_refactor_rename = "<leader>rn Rename"
+"let g:WhichKeyDesc_refactor_method = "<leader>rm Extract method"
+"let g:WhichKeyDesc_refactor_variable = "<leader>rv Extract variable"
+"let g:WhichKeyDesc_refactor_field = "<leader>rf Extract field"
+"let g:WhichKeyDesc_refactor_constant = "<leader>rc Extract constant"
+"let g:WhichKeyDesc_refactor_inline = "<leader>ri Inline"
+"let g:WhichKeyDesc_refactor_signature = "<leader>rs Change signature"
+"let g:WhichKeyDesc_refactor_menu = "<leader>rr Refactor menu"
+"
+"" Debug group
+"let g:WhichKeyDesc_debug = "<leader>d Debug"
+"let g:WhichKeyDesc_debug_run = "<leader>dr Run"
+"let g:WhichKeyDesc_debug_debug = "<leader>dd Debug"
+"let g:WhichKeyDesc_debug_stop = "<leader>ds Stop"
+"let g:WhichKeyDesc_debug_breakpoint = "<leader>db Toggle breakpoint"
+"let g:WhichKeyDesc_debug_continue = "<leader>dc Continue"
+"let g:WhichKeyDesc_debug_over = "<leader>do Step over"
+"let g:WhichKeyDesc_debug_into = "<leader>di Step into"
+"let g:WhichKeyDesc_debug_out = "<leader>du Step out"
+"let g:WhichKeyDesc_debug_eval = "<leader>de Evaluate"
+"
+"" Window group
+"let g:WhichKeyDesc_window = "<leader>w Window"
+"let g:WhichKeyDesc_window_vsplit = "<leader>wv Split vertical"
+"let g:WhichKeyDesc_window_split = "<leader>ws Split horizontal"
+"let g:WhichKeyDesc_window_unsplit = "<leader>wu Unsplit"
+"let g:WhichKeyDesc_window_move = "<leader>wm Move to other group"
+"let g:WhichKeyDesc_window_only = "<leader>wo Close other splits"
+"
+"" Toggle group
+"let g:WhichKeyDesc_toggle = "<leader>t Toggle"
+"let g:WhichKeyDesc_toggle_zen = "<leader>tz Zen mode"
+"let g:WhichKeyDesc_toggle_distraction = "<leader>td Distraction free"
+"let g:WhichKeyDesc_toggle_fullscreen = "<leader>tf Fullscreen"
+"let g:WhichKeyDesc_toggle_test = "<leader>tt Run test"
+"
+"" Code/LSP group
+"let g:WhichKeyDesc_code = "<leader>c Code"
+"let g:WhichKeyDesc_code_actions = "<leader>ca Code actions"
+"let g:WhichKeyDesc_code_generate = "<leader>cg Generate"
+"let g:WhichKeyDesc_code_override = "<leader>co Override methods"
+"let g:WhichKeyDesc_code_implement = "<leader>ci Implement methods"
+"
+"" LSP group
+"let g:WhichKeyDesc_lsp = "<leader>l LSP"
+"let g:WhichKeyDesc_lsp_format = "<leader>lf Format"
+"let g:WhichKeyDesc_lsp_optimize = "<leader>lo Optimize imports"
+"
+"" Hunk group
+"let g:WhichKeyDesc_hunk = "<leader>h Hunk"
+"let g:WhichKeyDesc_hunk_reset = "<leader>hr Reset hunk"
+"let g:WhichKeyDesc_hunk_preview = "<leader>hp Preview hunk"
+"
+"" Buffer group
+"let g:WhichKeyDesc_buffer = "<leader>b Buffer"
+"let g:WhichKeyDesc_buffer_delete = "<leader>bd Delete buffer"
+"let g:WhichKeyDesc_buffer_only = "<leader>bo Close others"
+"let g:WhichKeyDesc_buffer_build = "<leader>bb Build"
+"let g:WhichKeyDesc_buffer_rebuild = "<leader>br Rebuild"
+"
+"" Search group
+"let g:WhichKeyDesc_search = "<leader>s Search"
+"let g:WhichKeyDesc_search_actions = "<leader>sa Actions"
+"let g:WhichKeyDesc_search_replace = "<leader>sr Replace"
+"let g:WhichKeyDesc_search_replace_all = "<leader>sR Replace in path"
+"let g:WhichKeyDesc_search_project = "<leader>sp Select in project"
+"
+"" Quick actions
+"let g:WhichKeyDesc_quick_recent = "<leader><leader> Recent files"
+"let g:WhichKeyDesc_quick_search = "<leader>/ Search everywhere"
+"let g:WhichKeyDesc_quick_explorer = "<leader>x File explorer"
+"let g:WhichKeyDesc_quick_terminal = "<leader>nt Terminal"
+"let g:WhichKeyDesc_quick_structure = "<leader>o File structure"
+"let g:WhichKeyDesc_quick_settings = "<leader>, Settings"
+"let g:WhichKeyDesc_quick_reload = "<leader>R Reload ideavimrc"
+"let g:WhichKeyDesc_quick_error = "<leader>e Error description"
+"let g:WhichKeyDesc_quick_fix = "<leader>qf Quick fix"
+"let g:WhichKeyDesc_quick_select = "<leader>v Select last change"
+"let g:WhichKeyDesc_quick_paste = "<leader>p Paste from yank"

@@ -7,11 +7,6 @@ local keymap = vim.keymap.set
 local opts = { noremap = true, silent = true }
 local autocmds = require("settings.autocommands")
 
--- [[ NORMAL MODE ]]
--- keymap("i", "jk", "<esc>", opts)
--- keymap("i", "kj", "<esc>", opts)
--- keymap("i", "JK", "<esc>", opts)
-
 -- [[ EASIER KEYBINDS FOR COMMON OPS ]]
 keymap("n", "cu", "ct_", opts)
 keymap("n", "du", "dt_", opts)
@@ -48,28 +43,25 @@ keymap("n", "yc", "yygccp", { remap = true }) -- NOTE: `remap = true` is require
 -- [[ SENSIBLE BEHAVIOR ]]
 keymap("n", "J", "mzJ`z")
 keymap("x", "I", function()
-	return vim.fn.mode() == "V" and "^<C-v>I" or "I"
+  return vim.fn.mode() == "V" and "^<C-v>I" or "I"
 end, { expr = true })
 keymap("x", "A", function()
-	return vim.fn.mode() == "V" and "$<C-v>A" or "A"
+  return vim.fn.mode() == "V" and "$<C-v>A" or "A"
 end, { expr = true })
 
 -- [[ GLOBAL SUBSTITUTION ]]
 -- keymap("n", "<leader>su", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]], opts)
 keymap("n", "S", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left><C-w>]], opts)
-keymap("v", "<leader>_", ":<C-U>keeppatterns '<,'>s/\\%V[ -]/_/g<CR>", opts)
 
 -- [[ SET WORKDIR TO FILE YOU'RE EDITING ]]
 keymap(
-	"n",
-	"<leader>cd",
-	autocmds.change_to_buf_dir,
-	{ noremap = true, silent = true, desc = "[C]hange [D]irectory to current buffer path" }
+  "n",
+  "<leader>cd",
+  autocmds.change_to_buf_dir,
+  { noremap = true, silent = true, desc = "[C]hange [D]irectory to current buffer path" }
 )
--- keymap('n', '<leader>cd', ':lcd %:p:h<CR>:pwd<CR>', { desc = 'cd into directory of the currently open buffer' })
 
 -- [[ DOCS AND TYPE INFO ]]
--- WARNING: GOATED
 keymap("n", "<leader>fh", ":help <C-r><C-w><CR>", { desc = "[F]ind [H]elp for word under cursor" })
 keymap("n", "<leader>i", ":Inspect<CR>", { desc = "[I]nspect word under cursor" })
 
@@ -83,8 +75,8 @@ keymap("v", ">", ">gv", opts)
 keymap("n", "<leader>so", ":.!sh<cr>", { noremap = true, desc = "[S]hell [O]utput" })
 
 -- [[ ANTI-TEXTWRAP ]]
-keymap({ "n", "v" }, "k", "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
-keymap({ "n", "v" }, "j", "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
+-- keymap({ "n", "v" }, "k", "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
+-- keymap({ "n", "v" }, "j", "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
 
 -- [[ VERTICAL MVMT ]]
 keymap("n", "<C-d>", "<C-d>zz", opts)
@@ -107,6 +99,8 @@ keymap("c", "%s/", "%sm/") -- easier regexes
 -- keymap('n', '/', '/\\v')
 -- keymap('c', '%s/', '%sm/')
 
+-- [[ WORD COUNT FOR VISUAL SELECTION ]]
+vim.keymap.set("x", "<leader>wc", ":'<,'>w !wc -w<CR>", { desc = "[W]ord [C]ount selection" })
 -- }}
 
 -- [[ TOGGLES ]] {{
@@ -118,13 +112,13 @@ keymap("n", "<Esc>", ":nohlsearch<CR>", opts)
 -- HELP: file-searching,
 -- :help finddir and :help fnamemodify
 local function get_git_root()
-	local dot_git_path = vim.fn.finddir(".git", ".;")
-	return vim.fn.fnamemodify(dot_git_path, ":h")
+  local dot_git_path = vim.fn.finddir(".git", ".;")
+  return vim.fn.fnamemodify(dot_git_path, ":h")
 end
 vim.keymap.set("n", "<leader>tr", function()
-	local new = get_git_root()
-	vim.api.nvim_set_current_dir(get_git_root())
-	vim.notify(string.format("Changed root to: %s", new))
+  local new = get_git_root()
+  vim.api.nvim_set_current_dir(get_git_root())
+  vim.notify(string.format("Changed root to: %s", new))
 end, {})
 
 -- vim.keymap.set('n', '<leader>tr', function()
@@ -151,9 +145,9 @@ end, {})
 
 -- [[ TOGGLE FORMATTING ]]
 vim.keymap.set("n", "<leader>tf", function()
-	vim.b.disable_formatting = not vim.b.disable_formatting
-	local res = vim.b.disable_formatting and "Disabled" or "Enabled"
-	vim.notify(string.format("%s autoformat on save", res))
+  vim.b.disable_formatting = not vim.b.disable_formatting
+  local res = vim.b.disable_formatting and "Disabled" or "Enabled"
+  vim.notify(string.format("%s autoformat on save", res))
 end, { desc = "Format: Toggle format on save" })
 -- }}
 
@@ -163,7 +157,7 @@ end, { desc = "Format: Toggle format on save" })
 vim.keymap.set({ "n", "x" }, "<leader>p", [["0p]], { desc = "paste from yank register" })
 
 -- [[ SANER PASTE BEHAVIOR ]]
-keymap("n", "P", "m`O<Esc>p``", opts)
+-- keymap("n", "P", "m`O<Esc>p``", opts)
 keymap("n", "cc", '"_cc', opts) -- INFO: "_ is like a pit of hell ("black hole register", discards)
 
 -- [[ DELETE WITHOUT COPYING INTO REGISTER ]]
@@ -189,53 +183,53 @@ keymap("n", "<leader>cc", ":w !wl-copy<cr><cr>") -- copy entire buffer into clip
 -- [[ BUILTIN TERMINAL ]] {{
 -- credits: TJ Devries
 local state = {
-	floating = {
-		buf = -1,
-		win = -1,
-	},
+  floating = {
+    buf = -1,
+    win = -1,
+  },
 }
 
 local function create_floating_window(options)
-	options = options or {}
-	local width = options.width or math.floor(vim.o.columns * 0.8)
-	local height = options.height or math.floor(vim.o.lines * 0.8)
+  options = options or {}
+  local width = options.width or math.floor(vim.o.columns * 0.8)
+  local height = options.height or math.floor(vim.o.lines * 0.8)
 
-	local col = math.floor((vim.o.columns - width) / 2)
-	local row = math.floor((vim.o.lines - height) / 2)
+  local col = math.floor((vim.o.columns - width) / 2)
+  local row = math.floor((vim.o.lines - height) / 2)
 
-	local buf = nil
-	if vim.api.nvim_buf_is_valid(options.buf) then
-		buf = options.buf
-	else
-		buf = vim.api.nvim_create_buf(false, true)
-	end
+  local buf = nil
+  if vim.api.nvim_buf_is_valid(options.buf) then
+    buf = options.buf
+  else
+    buf = vim.api.nvim_create_buf(false, true)
+  end
 
-	local win_config = {
-		relative = "editor",
-		border = "rounded",
-		style = "minimal",
-		width = width,
-		height = height,
-		col = col,
-		row = row,
-	}
+  local win_config = {
+    relative = "editor",
+    border = "rounded",
+    style = "minimal",
+    width = width,
+    height = height,
+    col = col,
+    row = row,
+  }
 
-	local win = vim.api.nvim_open_win(buf, true, win_config)
-	return { buf = buf, win = win }
+  local win = vim.api.nvim_open_win(buf, true, win_config)
+  return { buf = buf, win = win }
 end
 
 local new_terminal = function()
-	if not vim.api.nvim_win_is_valid(state.floating.win) then
-		state.floating = create_floating_window({ buf = state.floating.buf })
-		if vim.bo[state.floating.buf].buftype ~= "terminal" then
-			vim.cmd.terminal()
-		end
-		-- Start float terminal in insert mode
-		vim.api.nvim_set_current_win(state.floating.win)
-		vim.cmd("startinsert!")
-	else
-		vim.api.nvim_win_hide(state.floating.win)
-	end
+  if not vim.api.nvim_win_is_valid(state.floating.win) then
+    state.floating = create_floating_window({ buf = state.floating.buf })
+    if vim.bo[state.floating.buf].buftype ~= "terminal" then
+      vim.cmd.terminal()
+    end
+    -- Start float terminal in insert mode
+    vim.api.nvim_set_current_win(state.floating.win)
+    vim.cmd("startinsert!")
+  else
+    vim.api.nvim_win_hide(state.floating.win)
+  end
 end
 vim.api.nvim_create_user_command("NewTerm", new_terminal, {})
 vim.keymap.set({ "n", "t" }, "<space>nt", new_terminal)
@@ -270,16 +264,6 @@ keymap("n", "<C-k>", "<C-w><C-k>", { desc = "Switch focus to upper window" })
 keymap("n", "gG", "gg<S-v>G", { desc = "Select all" })
 
 -- [[ TEXT ]] {{
--- [[ SPELLING ]]
--- TODO:
--- -- Set the keymap to toggle spell checking
--- keymap('n', '<leader>tsp', ':lua toggle_spell()<CR>', { noremap = true, silent = true, desc = '[T]oggle [S][P]ell' })
--- keymap('n', '<leader>tsp', ':set spell<CR>', { noremap = true, silent = true, desc = '[T]oggle [S][P]ell' })
--- keymap('n', '<leader>tsp', ':set nospell<CR>', { noremap = true, silent = true, desc = '[T]oggle [S][P]ell' })
-keymap("n", "<leader>spc", "z=", { noremap = true, silent = true, desc = "[S][P]ell auto[C]omplete possible words" })
-keymap("n", "<leader>spa", "zg", { noremap = true, silent = true, desc = "[S][P]ell [A]dd to dictionary" })
-keymap("n", "<leader>spd", "zw", { noremap = true, silent = true, desc = "[S][P]ell [D]elete from dictionary" })
-
 -- [[ CORRECT SPELLING MISTAKES ]]
 -- src: https://castel.dev/post/lecture-notes-1/#correcting-spelling-mistakes-on-the-fly
 -- Used in conjuction w/builtin C-w
@@ -287,26 +271,28 @@ keymap("n", "<leader>spd", "zw", { noremap = true, silent = true, desc = "[S][P]
 
 -- [[ AUTOCORRECT ]]
 local abbreviations = {
-	teh = "the",
-	recieve = "receive",
-	strcut = "struct",
-	cosnt = "const",
-	-- [">>"] = "→",  // holy mother of god is this annoying for i →= 1
-	-- ["<<"] = "←",
-	["^^"] = "↑",
-	VV = "↓",
+  teh = "the",
+  jsut = "just",
+  recieve = "receive",
+  strcut = "struct",
+  cosnt = "const",
+  sf = "static final",
+  -- [">>"] = "→",  // holy mother of god is this annoying for i →= 1
+  -- ["<<"] = "←",
+  ["^^"] = "↑",
+  VV = "↓",
 }
 
 for from, into in pairs(abbreviations) do
-	vim.cmd(string.format("iabbrev %s %s", from, into))
+  vim.cmd(string.format("iabbrev %s %s", from, into))
 end
 -- }}
 
 -- [[ TESTS ]] {{
 vim.keymap.set("n", "<leader>r", function()
-	vim.cmd("write")
-	local filename = vim.fn.expand("%:t")
-	os.execute('tmux send-keys -t 1 "go run ./' .. filename .. '" C-m')
+  vim.cmd("write")
+  local filename = vim.fn.expand("%:t")
+  os.execute('tmux send-keys -t 1 "go run ./' .. filename .. '" C-m')
 end)
 -- }}
 -- vim: ts=2 sts=2 sw=2 et

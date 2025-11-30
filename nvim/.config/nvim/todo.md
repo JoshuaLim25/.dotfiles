@@ -14,6 +14,11 @@
 - [ ] [`fzf` functions](https://github.com/junegunn/fzf/wiki/Examples-(vim))
 
 
+- [java nvim](https://www.reddit.com/r/neovim/comments/1eocacb/is_java_in_neovim_doable/)
+    - [ ] [jdtls](https://github.com/brianrbrenner/nvim/blob/master/lua/brian/config/jdtls_setup.lua)
+    - [ ] [update vimrc](https://github.com/peppy/dotfiles/blob/f78c755e795d69ddd4941818ab38573cb70a2c51/dot_vimrc)
+    - [ ] [make ideavimrc](https://github.com/peppy/dotfiles/blob/master/dot_ideavimrc)
+
 debug print
 
 

@@ -314,10 +314,13 @@ bindsym $mod+Shift+s exec swaylock -f && sleep 2 && systemctl suspend
 
 # [[ SCREENSHOTS ]] {{
 bindsym Print exec grim -g "$(slurp)" - | wl-copy
-# save selected region to designated folder
+# [[ SAVE SELECTED REGION TO DESIGNATED FOLDER ]]
 # bindsym Print exec grim -g "$(slurp)" ~/Pictures/Screenshot-$(date +%Y%m%d-%H%M%S).png
-# entire screen, no selection
+bindsym $mod+Print exec "~/.local/bin/scripts/img"
+# bindsym $mod+Print exec sh -c "~/.local/bin/scripts/img"
+# [[ ENTIRE SCREEN, NO SELECTION ]]
 # bindsym Print exec grim ~/Pictures/Screenshot-$(date +%Y%m%d-%H%M%S).png
+# Binding to capture a screenshot of a region using Alt + Print Screen
 # }}
 
 # Disable the blue bars on stack

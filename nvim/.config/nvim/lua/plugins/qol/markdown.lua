@@ -1,5 +1,6 @@
 -- https://github.com/wfxr/dotfiles/blob/cd5227f0832581b7507b10358a130fd68396e247/vim/nvim/lua/plugins/editor.lua#L109
 return  {
+  -- in editor
   {
     "iamcco/markdown-preview.nvim",
     enabled = not vim.env.SSH_CLIENT and vim.fn.filereadable("/.dockerenv") == 0,
@@ -8,7 +9,7 @@ return  {
     build = "cd app && yarn install",
     keys = {
       {
-        "<leader>cp",
+        "<leader>md",
         ft = "markdown",
         "<cmd>MarkdownPreviewToggle<cr>",
         desc = "Markdown Preview",
@@ -19,22 +20,7 @@ return  {
     end,
   },
 
-  {
-    "toppair/peek.nvim",
-    ft = { "markdown" },
-    build = "deno task --quiet build:fast",
-    enabled = false and (not vim.env.SSH_CLIENT and vim.fn.filereadable("/.dockerenv") == 0),
-    keys = {
-      {
-        "<leader>cp",
-        function()
-          require("peek").open()
-        end,
-        desc = "Markdown Preview",
-      },
-    },
-  },
-
+  -- in editor
   {
     "MeanderingProgrammer/render-markdown.nvim",
     opts = {

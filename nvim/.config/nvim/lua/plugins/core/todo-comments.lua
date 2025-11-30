@@ -25,7 +25,7 @@
         TODO = { icon = " ", color = "info", },
         INFO = { icon = " ", color = "info", },
         NOTE = { icon = " ", color = "warning" },
-        WARN = { icon = " ", color = "warning", alt = { "WARNING", "BAD" }, },
+        WARN = { icon = " ", color = "error", alt = { "WARNING", "BAD" }, },
         PERF = { icon = " ", color = "hint", alt = { "OPTIM", "PERFORMANCE", "OPTIMIZE" } },
         SAFETY = { icon = "󰌾 ", color = "info", alt = { "SECURITY", "SECURE" } },
 

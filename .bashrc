@@ -14,8 +14,6 @@ PATH="$HOME/.local/bin:$PATH"
 # enables you to use vim motions in the command line
 # https://unix.stackexchange.com/questions/303282/in-bash-vi-mode-map-jk-to-exit-insert-mode
 set -o vi
-bind '"jk":vi-movement-mode'
-# bind '"jk":"\e"'
 set show-mode-in-prompt on
 set vi-ins-mode-string "+"
 set vi-cmd-mode-string ":"
@@ -112,10 +110,15 @@ fi
 # colored GCC warnings and errors
 export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
 
-# some more ls aliases
+# [[ ALIASES ]]
 alias ll='ls -alF'
 alias la='ls -A'
 alias l='ls -CF'
+alias getmeout="shutdown -h now"
+alias ..='cd ..'
+alias ...='cd ../..'
+alias ....='cd ../../..'
+alias s='source ~/.bashrc'
 
 # Add an "alert" alias for long running commands.  Use like so:
 #   sleep 10; alert

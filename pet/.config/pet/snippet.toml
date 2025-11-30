@@ -1,0 +1,6 @@
+
+[[Snippets]]
+  Description = "Git: see which commits included modifications to the file in question"
+  Output = ""
+  Tag = []
+  command = "git log -- <path_to_file>"

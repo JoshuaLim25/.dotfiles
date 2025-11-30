@@ -66,8 +66,8 @@ return {
           -- Next/last variants
           around_next = 'an',
           inside_next = 'in',
-          around_last = '', -- al treesitter obj
-          inside_last = '', -- il
+          -- around_last = '', -- al treesitter obj
+          -- inside_last = '', -- il
 
           -- "Modifiers"
           add = 'su', -- Add surrounding in Normal and Visual modes
@@ -78,7 +78,7 @@ return {
           highlight = 'sh', -- Highlight surrounding
           update_n_lines = 'sn', -- Update `n_lines`
 
-          suffix_last = '', -- Suffix to search with "prev" method (TS)
+          -- suffix_last = '', -- Suffix to search with "prev" method (TS)
           suffix_next = 'n', -- Suffix to search with "next" method
         },
 
@@ -100,6 +100,9 @@ return {
         -- Whether to disable showing non-error feedback
         silent = false,
       }
+
+      -- NOTE: for restoring 's' functionality
+      vim.keymap.set({ "n", "v", "x", "o" }, "s", "s", {noremap = true})
 
       -- NOTE: WAS COMMENTED OUT
       local statusline = require 'mini.statusline'

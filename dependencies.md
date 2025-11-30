@@ -73,6 +73,7 @@
 - `ghostscript`
 - `p7zip`
 - `python-pip`
+- `python-pipx`
 - `gdb`
 - `ninja`
 - `meson`
@@ -93,6 +94,9 @@
 - `postgresql`
 - `grc`
 - `github-cli`
+- `java-environment-common`
+- `java-runtime-common`
+- `gradle`
 
 ## Sway
 
@@ -117,6 +121,8 @@
 - `visual-studio-code-bin`
 - `greetd`
 - `greetd-wlgreet`
+- `jetbrains-toolbox`
+- `pet-bin`  # https://github.com/knqyf263/pet?tab=readme-ov-file#installation
 
 #### GREEETD
 - [docs](https://man.sr.ht/~kennylevinsen/greetd)

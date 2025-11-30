@@ -94,9 +94,9 @@ return {
               end, "[T]oggle Inlay [H]ints")
             end
 
-            -- TODO: see if still necessary
+            -- TODO: change dynamically based on ft (looks good in java, bad w others)
             -- [[ Disable LSP semantic token highlighting ]]
-            -- client.server_capabilities.semanticTokensProvider = nil
+            client.server_capabilities.semanticTokensProvider = nil
             -- NOTE: Prevent LSP from overwriting treesitter color settings
             -- https://github.com/NvChad/NvChad/issues/1907
             -- vim.highlight.priorities.semantic_tokens = 95 -- Or any number lower than 100, treesitter's priority level
@@ -111,32 +111,32 @@ return {
         -- https://github.com/golang/tools/blob/master/gopls/doc/analyzers.md
         -- https://github.com/golang/tools/blob/master/gopls/doc/settings.md
         gopls = {
-          -- these features aren't already enabled by default
-          analyses = {
-            shadow = true,
-          },
-          codelenses = {
-            gc_details = false,
-            generate = true,
-            regenerate_cgo = true,
-            run_govulncheck = true,
-            test = true,
-            tidy = true,
-            upgrade_dependency = true,
-            vendor = true,
-          },
-          experimentalPostfixCompletions = true,
-          hints = {
-            assignVariableTypes = true,
-            compositeLiteralFields = true,
-            compositeLiteralTypes = true,
-            constantValues = true,
-            functionTypeParameters = true,
-            parameterNames = true,
-            rangeVariableTypes = true,
-          },
-          -- gofumpt = true,
-          semanticTokens = true,
+          -- -- these features aren't already enabled by default
+          -- analyses = {
+          --   shadow = true,
+          -- },
+          -- codelenses = {
+          --   gc_details = false,
+          --   generate = true,
+          --   regenerate_cgo = true,
+          --   run_govulncheck = true,
+          --   test = true,
+          --   tidy = true,
+          --   upgrade_dependency = true,
+          --   vendor = true,
+          -- },
+          -- experimentalPostfixCompletions = true,
+          -- hints = {
+          --   assignVariableTypes = true,
+          --   compositeLiteralFields = true,
+          --   compositeLiteralTypes = true,
+          --   constantValues = true,
+          --   functionTypeParameters = true,
+          --   parameterNames = true,
+          --   rangeVariableTypes = true,
+          -- },
+          -- -- gofumpt = true,
+          -- semanticTokens = true,
         },
         bashls = {},
         clangd = {},
@@ -174,6 +174,7 @@ return {
       local ensure_installed = vim.tbl_keys(servers or {})
       vim.list_extend(ensure_installed, {
         -- NOTE: just putting formatters here
+        'jdtls',
         "stylua", -- Lua
         -- 'golangci-lint',  -- BAD: use pacman
         -- 'prettierd', -- md, js code
@@ -184,7 +185,12 @@ return {
       require("mason-lspconfig").setup({
         ensure_installed = {}, -- explicitly set to an empty table: installs are populated via mason-tool-installer)
         automatic_installation = false,
-        automatic_enable = true,
+        automatic_enable = {
+                    exclude = {
+                        -- needs external plugin
+                        'jdtls',
+                    }
+                },
         -- { PATH = 'append' },
         handlers = {
           function(server_name)

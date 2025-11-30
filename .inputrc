@@ -8,6 +8,8 @@
 set editing-mode vi
 set keymap vi-ins
 
+# tab complete downloads
+set completion-ignore-case On
 
 # Restore some keymaps removed by vi mode
 "\C-p": history-search-backward

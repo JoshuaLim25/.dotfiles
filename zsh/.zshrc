@@ -120,58 +120,7 @@ eval "$(fzf --zsh)"
 # src: https://github.com/junegunn/fzf?tab=readme-ov-file#display-modes 
 # https://github.com/junegunn/fzf/wiki/Configuring-shell-key-bindings
 # https://github.com/junegunn/fzf?tab=readme-ov-file#tips
-export FZF_TMUX_OPTS=" -p90%,80% "
-export FZF_DEFAULT_COMMAND="fd --strip-cwd-prefix --hidden --follow --exclude '.git'"
-# export FZF_DEFAULT_OPTS="--height 50% --layout reverse --border --color=hl:#7AA89F"
-# export FZF_DEFAULT_OPTS="--height 80% --layout reverse --border --color=hl:#7AA89F --preview-window=right:60% --bind 'ctrl-d:preview-page-down' --bind 'ctrl-u:preview-page-up' --bind 'CTRL-O:toggle-preview-wrap'"
-# NOTE: default layout puts searchbar in middle/bottom
-export FZF_DEFAULT_OPTS="
-  --height=80% --layout=reverse --border
-  --preview-window=right:60%
-  --bind='ctrl-d:preview-page-down,ctrl-u:preview-page-up,CTRL-O:toggle-preview-wrap'
-  --color='dark,\
-fg:#c5c8c6,\
-fg+:#b5bd68:regular,\
-hl:#f0c674,\
-hl+:#cc6666,\
-bg:#1d1f21,\
-bg+:#43436c,\
-gutter:-1,\
-prompt:#9fb5c9,\
-pointer:#f0c674,\
-marker:#f0c674,\
-info:#7AA89F,\
-border:#81a2be,\
-separator:#282a2e'
-"
-export FZF_ALT_C_COMMAND="fd --type=d --hidden --strip-cwd-prefix --exclude '.git'"
-# https://github.com/junegunn/fzf/wiki/Configuring-shell-key-bindings#ctrl-t
-export FZF_CTRL_T_OPTS="--select-1 --exit-0 --preview 'bat --color=always -n --line-range :500 {}'"
-export FZF_ALT_C_OPTS="--select-1 --exit-0 --preview 'eza --icons=always --tree --color=always {} | head -200'"
-# export FZF_ALT_C_OPTS="--preview 'tree -C {} | head -200'"
-# src: https://github.com/junegunn/fzf/wiki/Configuring-shell-key-bindings#full-command-on-preview-window
-export FZF_CTRL_R_OPTS="--preview 'echo {}' --preview-window down:3:hidden:wrap --bind '?:toggle-preview'"
-fzf-history-widget-accept() {
-  fzf-history-widget
-  zle accept-line
-}
-zle     -N     fzf-history-widget-accept
-bindkey -r '^R' # unbind: https://unix.stackexchange.com/questions/285208/how-to-remove-a-zsh-keybinding-if-i-dont-know-what-it-does
-bindkey '^R' fzf-history-widget-accept
-# src: https://github.com/junegunn/fzf-git.sh
-source ~/.dotfiles/scripts/.local/bin/scripts/fzf-git.sh
-# INFO: use `bindkey -L` :) and `echo "CtrlVEsc/"`
-# https://superuser.com/questions/169920/binding-fn-delete-in-zsh-on-mac-os-x/169930#169930
-# ^G^B           # branches
-# ^G^E           # each_ref
-# ^G^F           # files
-# ^G^H           # hashes
-# ^G^L           # lreflogs
-# ^G^R           # remotes
-# ^G^S           # stashes
-# ^G^T           # tags
-# ^G^W           # worktrees
-alias fgit='fzf-git.sh --run'
+source ~/.fzf_default_opts
 # }}
 
 # [[ CUSTOM SCRIPTS ]] {{
@@ -210,7 +159,6 @@ abbrev-alias za="zathura"
 abbrev-alias cdracket="cd ~/Documents/cis-352/autograder-assignments/"
 abbrev-alias cdsystems="cd ~/Documents/cis-384/"
 abbrev-alias cdtest="cd ~/spaghetti/test/"
-abbrev-alias cdnotes="cd ~/Documents/ObsidianNotes/"
 abbrev-alias cdgit="cd ~/Documents/git_testing/"
 abbrev-alias cdrs="cd ~/spaghetti/langs/rust/testing_grounds/"
 
@@ -233,6 +181,14 @@ abbrev-alias dcbuild="docker compose build"
 abbrev-alias dcup="docker compose up"
 # See https://docs.docker.com/reference/cli/docker/compose/up/ for more
 abbrev-alias dcups="docker compose up --remove-orphans --abort-on-container-failure"
+abbrev-alias dockps='docker ps --format "{{.ID}} {{.Names}}"'
+docksh() { docker exec -it "$1" /bin/bash; }
+# docker exec -it <id> /bin/bash
+
+# [[ JAVA ]]
+# export JAVA_HOME=/path/to/new/jdk
+# export PATH=$JAVA_HOME/bin:$PATH
+export MAVEN_COLOR=true
 
 # [[ RUST ]]
 abbrev-alias clipme='
@@ -276,6 +232,7 @@ alias rmrf="kondo"
 alias rm='rm -I'    # safety
 alias mv='mv -iv'   # safety
 # alias grep='rg'   # mental block :(
+alias grep='grep --color=auto'
 alias mdkir='mkdir' # i have a disability T_T
 # alias vim='nvim'
 alias ip='ip --color=auto'
@@ -301,14 +258,14 @@ alias dim='wlsunset -s $(date +%H:%M) -t 4000 &'
 alias pd='pushd'
 alias vdiff='nvim -d'
 alias py='python3'
-alias tree="tree -L 3 -a -I '.git' --charset X "
-alias minitree="tree -aL 3 --prune"
+alias tree="tree -C -L 3 -a -I '.git' --charset X " # -C for color
+alias minitree="tree -aCL 3 --prune"
 alias dirtree="tree -L 3 -a -d -I '.git' --charset X "
 alias todo='nvim ~/misc/TODO.md'
 alias hk='nvim ~/misc/hotkeys.md'
 alias remind='nvim ~/misc/reminders.md'
 alias qq='nvim ~/misc/blooms.md'
-alias proompt='nvim ~/spaghetti/proompt.md'
+# alias proompt='nvim ~/spaghetti/refs/prompts/'
 alias sc='shellcheck'
 alias btconnect='bluetoothctl connect BC:87:FA:BB:97:66'
 alias souniq='sort | uniq -c'
@@ -319,13 +276,22 @@ alias goupdate='sudo rm -rf /usr/local/go && curl -L https://go.dev/dl/go1.18.2.
 
 # [[ GRC (COLORIZED OUTPUT) ]]
 alias go='grc go'
+alias ifconfig='grc ifconfig'
 # }}
 
 # [[ TESTING RANDOM IDEAS ]] {{
-alias gitplay='cd ~/spaghetti/git_playground/'
-# BAD: won't work b/c subshells. Script is called from some proc P, which spawns a child process C. When C returns control to P it's back where it was.
-alias goplay='cd /tmp && (nvim main.go)'
 alias vv='cd /tmp && (nvim random.md)'  # e.g., changelog for big commits
+# [[ GIT ]]
+alias gitplay='cd ~/spaghetti/git_playground/'
+# [[ GO ]]
+alias vgo='cd /tmp && (nvim main.go)'
+# [[ JAVA ]]
+alias vjava='cd /tmp && (nvim Throwaway.java)'
+jj() {
+    local filename="$1"
+    local stripped="${filename%.*}" 
+    javac "$filename" && java "$stripped"
+}
 # }}
 
 # [[ REFS ]] {{

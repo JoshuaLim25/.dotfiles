@@ -1,88 +1,219 @@
-" colorscheme desert
-" COLORSCHEME: see https://phoenixnap.com/kb/vim-color-schemes
-" 1. mkdir -p ~/.vim/colors
-" 2. wget https://raw.githubusercontent.com/sainnhe/gruvbox-material/refs/heads/master/colors/gruvbox-material.vim -O ~/.vim/colors/gruvbox-material.vim
-
-" TODO: look into fixing paste behavior: https://coderwall.com/p/if9mda/automatically-set-paste-mode-in-vim-when-pasting-in-insert-mode
-" originally from this: https://stackoverflow.com/questions/2514445/turning-off-auto-indent-when-pasting-text-into-vim/38258720#38258720
-
-set termguicolors " set t_Co=256  
+" [[ ESSENTIAL ]] {{
+filetype plugin indent on
 syntax enable
-" colorscheme gruvbox-material
-" let g:gruvbox_material_background = 'hard'
-colorscheme gruvbox
-set background=dark 
-" let g:gruvbox_background = 'dark'  " Can be 'dark', 'medium', or 'light'
-" let g:gruvbox_foreground = 'hard'   " Optional: can be 'soft', 'medium', or 'hard'
+set guicursor+=a:blinkon0 " Disable blinking
+set clipboard=unnamedplus              " sync os clipboard with vim
+set virtualedit=block                  " visual block mode cool behavior
+set visualbell                         " never ever make my terminal beep
+set mouse=a                            " enable mouse mode
+set noshowmode                         " already in the status line
+set backspace=indent,eol,start         " allow backspace on
+set pumheight=10                       " pop up menu height
+set conceallevel=0                     " so that `` is visible in markdown files
+set encoding=UTF-8                     " the encoding written to a file
+set autoindent                         " copy indent from current line when starting new one
+set formatoptions-=cro                 " don't insert comment leader automatically
+" }}
 
-set number relativenumber
-inoremap jk <Esc>
+" [[ LINE NUMBERS ]] {{
+set number
+set relativenumber
+" }}
 
-nnoremap H ^  
-vnoremap H ^  
-xnoremap H ^  
-onoremap H ^  
+" [[ TAB STUFF ]] {{
+set expandtab           " tabs -> spaces
+set numberwidth=1       " set number column width to 2 {default 4}
+set shiftwidth=4        " the number of spaces inserted for each indentation
+set tabstop=4           " insert n spaces for a tab
+set softtabstop=4       " Number of spaces that a tab counts for while performing editing
+" }}
 
-nnoremap L $  
-vnoremap L $  
-xnoremap L $  
-onoremap L $ 
+" [[ LINE WRAP ]] {{
+set wrap                " false makes long long lines go offscreen
+set linebreak           " companion to wrap, don't split words
+if exists('+breakindent')
+  set breakindent       " keep lines visually indented (Vim 8.0+)
+endif
+" }}
 
-" TODO: https://github.com/mbbill/undotree
-set undodir=~/.vim/undodir
-set undofile
+" [[ MORE USEFUL DIFFS ]] {{
+if has('diff')
+  set diffopt+=iwhite
+  if has('patch-8.1.0360')
+    set diffopt+=algorithm:histogram
+    set diffopt+=indent-heuristic
+  endif
+endif
+" }}
 
-" Default clipboard = system keyboard
-" NOTE: copying/pasting from the system clipboard will not work if :echo has('clipboard') returns 0. In this case, Vim is not compiled with the +clipboard feature and you'll have to install a different version or recompile it. 
-set clipboard+=unnamedplus
+" [[ SEARCHING ]] {{
+set hlsearch            " highlight on search
+set ignorecase          " case-insensitive searching
+set smartcase           " unless capital letters in search term
+set iskeyword+=-        " hyphenated words recognized by searches
 
-" Set cursor to a block for normal, visual, and command-line modes
-set guicursor=n-v-c:block
+" [[ PROJ SPECIFIC ]]
+set path-=/usr/include  " removes /usr/include from Vim's path option
+set path+=$PWD/**       " recursively adds the CWD to Vim's path option.
+" }}
 
-" Disable blinking
-set guicursor+=a:blinkon0
+" [[ FILES, BUFFERS ]] {{
+set noswapfile
+set nowritebackup       " if file is being edited by another program
+set nosplitright        " how new splits open up
+set splitbelow
+set undofile            " save undo history
+set undodir=~/.vim/undo
+if !isdirectory(&undodir)
+  call mkdir(&undodir, 'p')
+endif
+set history=5000        " save command line window history
+" }}
 
-"Sets correct tab size
-set tabstop=4
-set softtabstop=4
-set shiftwidth=4
+" [[ VISUAL STUFF ]] {{
+if has('termguicolors')
+  set termguicolors     " true color support
+endif
+" [[ COLORSCHEME ]]
+" https://github.com/habamax/vim-gruvbit
+" Install gruvbit: git clone https://github.com/habamax/vim-gruvbit ~/.vim/pack/plugins/start/vim-gruvbit
+" Or using vim-plug: Plug 'habamax/vim-gruvbit'
+set termguicolors
+" colorscheme gruvbit
+" colorscheme desert
+set signcolumn=yes      " keep signcolumn on by default
+set cursorline          " show which line your cursor is on
+set scrolloff=999       " keep cursor centered
+set list                " show whitespace characters
+set listchars=tab:»\ ,trail:·,nbsp:␣
+" }}
 
-" Moving lines: https://vim.fandom.com/wiki/Moving_lines_up_or_down#Mappings_to_move_lines
+" [[ COMPLETIONS ]] {{
+if v:version >= 900 || has('nvim')
+  set completeopt=fuzzy,menuone,preview
+else
+  set completeopt=menuone,preview
+endif
+set updatetime=100      " faster completion
+" }}
+
+" [[ QOL ]] {{
+set smartindent
+set timeout
+set ttimeout
+set ttimeoutlen=-1
+set timeoutlen=250
+" }}
+
+" =============================================================================
+" KEYBINDINGS
+" =============================================================================
+
+" [[ ESSENTIAL ]] {{
+let mapleader = " "
+let maplocalleader = " "
+
+" [[ EASIER KEYBINDS FOR COMMON OPS ]]
+nnoremap <silent> cu ct_
+nnoremap <silent> du dt_
+nnoremap <silent> c. ct.
+nnoremap <silent> d. dt.
+nnoremap <silent> c" ct"
+nnoremap <silent> d" dt"
+nnoremap <silent> c' ct'
+nnoremap <silent> d' dt'
+xnoremap <silent> , t,
+xnoremap <silent> . t.
+noremap H ^
+noremap L $
+noremap <C-e> $%
+nnoremap <leader>e q:
+
+" [[ WRITE NO FORMAT ]]
+nnoremap <silent> <leader>wnf :noautocmd w<CR>
+" }}
+
+" [[ QOL/COOL ]] {{
+" [[ MOVE VISUALLY SELECTED LINES/BLOCKS VERTICALLY ]]
 vnoremap J :m '>+1<CR>gv=gv
 vnoremap K :m '<-2<CR>gv=gv
 
+" [[ SENSIBLE BEHAVIOR ]]
+nnoremap J mzJ`z
 
-" https://stackoverflow.com/questions/61379318/how-to-copy-from-vim-to-system-clipboard-using-wayland-and-without-compiled-vim
-nnoremap <C-@> :call system("wl-copy", @")<CR>
+" [[ GLOBAL SUBSTITUTION ]]
+nnoremap S :%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>
 
-" https://stackoverflow.com/questions/4775088/vim-how-to-select-pasted-block
-nnoremap <leader>p `[V`]
-nnoremap <leader>[ `[V`]<
-nnoremap <leader>] `[V`]>
+" [[ STAY IN INDENT MODE ]]
+vnoremap < <gv
+vnoremap > >gv
 
+" [[ TYPE SHELL COMMANDS IN A FILE AND EXPAND THE OUTPUT ]]
+nnoremap <leader>so :.!sh<CR>
 
+" [[ ANTI-TEXTWRAP ]]
+nnoremap <expr> k (v:count == 0 ? 'gk' : 'k')
+nnoremap <expr> j (v:count == 0 ? 'gj' : 'j')
+vnoremap <expr> k (v:count == 0 ? 'gk' : 'k')
+vnoremap <expr> j (v:count == 0 ? 'gj' : 'j')
 
-" Will look in the current directory for "tags", and work up the tree towards
-" root until one is found. IOW, you can be anywhere in your source tree
-" instead of just the root of it.
-" set tags=./tags;/
+" [[ VERTICAL MVMT ]]
+nnoremap <silent> <C-d> <C-d>zz
+nnoremap <silent> <C-u> <C-u>zz
 
-" let mapleader =" "
-" xnoremap('<leader>p', '"_dP')
+" [[ CENTER SEARCH RESULTS ]]
+nnoremap <silent> n nzzzv
+nnoremap <silent> N Nzzzv
+nnoremap <silent> * *zz
+nnoremap <silent> # #zz
+nnoremap <silent> g* g*zz
 
-" src: https://github.com/morhetz/gruvbox/wiki/Terminal-specific#0-recommended-neovimvim-true-color-support
-"Use 24-bit (true-color) mode in Vim/Neovim when outside tmux.
-"If you're using tmux version 2.2 or later, you can remove the outermost $TMUX check and use tmux's 24-bit color support
-"(see < http://sunaku.github.io/tmux-24bit-color.html#usage > for more information.)
-if (empty($TMUX) && getenv('TERM_PROGRAM') != 'Apple_Terminal')
-  if (has("nvim"))
-    "For Neovim 0.1.3 and 0.1.4 < https://github.com/neovim/neovim/pull/2198 >
-    let $NVIM_TUI_ENABLE_TRUE_COLOR=1
-  endif
-  "For Neovim > 0.1.5 and Vim > patch 7.4.1799 < https://github.com/vim/vim/commit/61be73bb0f965a895bfb064ea3e55476ac175162 >
-  "Based on Vim patch 7.4.1770 (`guicolors` option) < https://github.com/vim/vim/commit/8a633e3427b47286869aa4b96f2bfc1fe65b25cd >
-  " < https://github.com/neovim/neovim/wiki/Following-HEAD#20160511 >
-  if (has("termguicolors"))
-    set termguicolors
-  endif
-endif
+" [[ NO MORE ESCAPING SPECIAL CHARS IN SEARCH ]]
+nnoremap ? ?\V
+nnoremap / /\V
+cnoremap %s/ %sm/
+
+" [[ WORD COUNT FOR VISUAL SELECTION ]]
+xnoremap <leader>wc :'<,'>w !wc -w<CR>
+
+" [[ TOGGLE SEARCH HIGHLIGHTS ]]
+nnoremap <silent> <Esc> :nohlsearch<CR>
+" }}
+
+" [[ COPY/PASTE ]] {{
+" [[ COPY PASTE SYSTEM CLIPBOARD ]]
+xnoremap <silent> <leader>y y:call system("wl-copy --trim-newline", @*)<cr>:call system("wl-copy -p --trim-newline", @*)<cr>
+
+" [[ SANER PASTE BEHAVIOR ]]
+nnoremap cc "_cc
+
+" [[ RE-SELECT MOST RECENT VISUAL HIGHLIGHTED ]]
+nnoremap <leader>v `[V`]
+
+" [[ BUFFERS ]] {{
+nnoremap <leader>j :bnext<CR>
+nnoremap <leader>k :bprev<CR>
+nnoremap <leader>bd :bdelete<CR>
+nnoremap <silent> <leader>; :b#<CR>
+
+" [[ WINDOW/SPLIT NAVIGATION ]]
+nnoremap <C-h> <C-w><C-h>
+nnoremap <C-l> <C-w><C-l>
+nnoremap <C-j> <C-w><C-j>
+nnoremap <C-k> <C-w><C-k>
+
+" [[ SELECT ENTIRE BUFFER ]]
+nnoremap gG gg<S-v>G
+" }}
+
+" [[ AUTOCORRECT ]]
+iabbrev teh the
+iabbrev recieve receive
+iabbrev strcut struct
+iabbrev cosnt const
+iabbrev ^^ ↑
+iabbrev VV ↓
+" }}
+
+" vim: set ts=2 sts=2 sw=2 et:
+
