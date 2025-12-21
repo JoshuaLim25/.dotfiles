@@ -116,14 +116,7 @@ eval "$(fzf --zsh)"
 # eval "$(zoxide init --cmd cd zsh)"
 # }}
 
-# [[ FZF CONFIGURATIONS ]] {{
-# src: https://github.com/junegunn/fzf?tab=readme-ov-file#display-modes 
-# https://github.com/junegunn/fzf/wiki/Configuring-shell-key-bindings
-# https://github.com/junegunn/fzf?tab=readme-ov-file#tips
-source ~/.fzf_default_opts
-# }}
-
-# [[ CUSTOM SCRIPTS ]] {{
+# [[ CUSTOM SCRIPTS, FUNCTIONS, AND CONFIGS ]] {{
 # Keybindings
 source ~/.dotfiles/scripts/.local/bin/scripts/set-vi-mode.sh
 # SSH
@@ -132,21 +125,15 @@ source ~/.dotfiles/scripts/.local/bin/scripts/ssh.sh
 source ~/.dotfiles/scripts/.local/bin/scripts/abbrev-alias.sh
 # See ~/.config/systemd/user/ssh-agent.service
 export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.socket"
-# }}
 
-# [[ HELPER FUNCTIONS ]] {{
-# # https://stackoverflow.com/questions/1314334/easy-way-to-create-a-file-nested-in-unavailable-directories/1314345#1314345
-# mktouch {
-#   mkdir -p "$(dirname $1)"
-#   touch "$1"
-# }
-# # https://superuser.com/questions/1412808/add-function-to-zsh
-# docker-clean() {
-#   docker stop "$(docker ps -a -q)"
-#   docker rm "$(docker ps -a -q)"
-#   docker rmi "$(docker images -q)"
-#   docker volume prune
-# }
+# [[ FZF CONFIGURATIONS ]]
+# src: https://github.com/junegunn/fzf?tab=readme-ov-file#display-modes 
+# https://github.com/junegunn/fzf/wiki/Configuring-shell-key-bindings
+# https://github.com/junegunn/fzf?tab=readme-ov-file#tips
+source ~/.fzf_config
+
+# [[ FUNCTIONS ]]
+source ~/.functions.zsh
 # }}
 
 # [[ ABBREVIATIONS ]] {{
@@ -216,6 +203,7 @@ abbrev-alias tnew="tmux new -s"
 alias ..="cd .."
 alias ...="cd ../.."
 alias ....="cd ../../.."
+alias .....="cd ../../../.."
 alias s='source ~/.zshrc'
 alias dot='cd ~/.dotfiles'
 alias vz='nvim ~/.zshrc'
@@ -252,8 +240,6 @@ alias pkg="pacman -Qq | fzf \
 
 
 # [[ "QOL" ]]
-# alias f='fzf'
-alias f='fzf --print0 | xargs -0 --no-run-if-empty -- nvim' # and ~/.dotfiles/scripts/ff :)
 alias dim='wlsunset -s $(date +%H:%M) -t 4000 &'
 alias pd='pushd'
 alias vdiff='nvim -d'
@@ -262,6 +248,7 @@ alias tree="tree -C -L 3 -a -I '.git' --charset X " # -C for color
 alias minitree="tree -aCL 3 --prune"
 alias dirtree="tree -L 3 -a -d -I '.git' --charset X "
 alias todo='nvim ~/misc/TODO.md'
+alias piano='nvim ~/misc/piano.md'
 alias hk='nvim ~/misc/hotkeys.md'
 alias remind='nvim ~/misc/reminders.md'
 alias qq='nvim ~/misc/blooms.md'
@@ -286,34 +273,12 @@ alias gitplay='cd ~/spaghetti/git_playground/'
 # [[ GO ]]
 alias vgo='cd /tmp && (nvim main.go)'
 # [[ JAVA ]]
-alias vjava='cd /tmp && (nvim Throwaway.java)'
+# TODO: migrate to ~/.functions.zsh?
+# TODO: https://github.com/jbangdev/jbang
+alias vjava='cd /tmp && (nvim Solution.java)'
 jj() {
     local filename="$1"
     local stripped="${filename%.*}" 
     javac "$filename" && java "$stripped"
 }
-# }}
-
-# [[ REFS ]] {{
-# [[ SIMPLER SOLNS ]]
-# bindkey -s ^v 'nvim ~/spaghetti/refs/**\t'
-# bindkey -s '^v' 'nvim $(find ~/spaghetti/refs/ -type f | fzf --with-nth=-1 --delimiter=/)\n'
-
-# [[ ONLY BASENAME ]]
-# fzf-nvim-widget() {
-#   local file
-#   file=$(find ~/spaghetti/refs/ -type f | fzf --with-nth=-1 --delimiter=/) || return
-#   [[ -n $file ]] && BUFFER="nvim $file" && zle accept-line
-# }
-# zle -N fzf-nvim-widget
-# bindkey '^v' fzf-nvim-widget
-
-# [[ INCLUDES DIRPATH ]]
-fzf-nvim-widget() {
-  local file
-  file=$(find ~/spaghetti/refs -type f -printf "%P\n" | fzf) || return
-  [[ -n $file ]] && BUFFER="nvim ~/spaghetti/refs/$file" && zle accept-line
-}
-zle -N fzf-nvim-widget
-bindkey '^v' fzf-nvim-widget
 # }}

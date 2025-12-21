@@ -9,6 +9,9 @@ o.vb = true                              -- never ever make my terminal beep
 o.mouse = 'a'                            -- enable mouse mode
 o.showmode = false                       -- already in the status line
 o.backspace = 'indent,eol,start'         -- allow backspace on
+o.filetype.enable = true                 -- determine filetype from extension
+o.filetype.plugin = true                 -- enable buffer-local ftplugin opts
+o.filetype.indent = true                 -- enable ftplugin indentation opts
 o.pumheight = 10                         -- pop up menu height
 o.conceallevel = 0                       -- so that `` is visible in markdown files
 o.encoding="UTF-8"                       -- the encoding written to a file
@@ -89,6 +92,8 @@ o.list = true
 o.listchars = { tab = '» ', trail = '·', nbsp = '␣' }
 
 -- [[ SET BORDER STYLE FOR FLOATING WINDOWS (GLOBAL) ]]
+-- bigger comandline edit window (q: or :<C-f> or <leader>e)
+vim.opt.cmdwinheight = 15
 -- style:
 -- o.winborder = 'rounded'
 -- transparency:
@@ -111,7 +116,7 @@ o.smartindent = true
 o.timeout = true
 o.ttimeout = true -- matters for keycode issues
 o.ttimeoutlen = -1  -- fallback to timeoutlen
--- If you set ttimeoutlen to -1, you only need to adjust timeoutlen to control all key-mapping related timeouts. 
+-- If you set ttimeoutlen to -1, you only need to adjust timeoutlen to control all key-mapping related timeouts.
 -- lower values mean you need to be faster
 o.timeoutlen = 250 -- time to wait for a mapped sequence to complete (in milliseconds)
 -- }}

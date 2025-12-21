@@ -9,6 +9,13 @@
 - [x] fix lsp and fzf keybinds
 - [x] fix ephemeral noneckpain scratchpad
 - [x] add: debug print
+- [ ] [image viewing](https://github.com/3rd/image.nvim)
+- [ ] [how to work in remote servers](https://www.reddit.com/r/neovim/comments/1khhmpw/how_to_work_in_remote_server/)
+    - type "nvim oil-ssh://your_ssh_server_of_ssh_config_file/relative_path_of_remote_server_home_dir" or "nvim oil-ssh://your_ssh_server_of_ssh_config_file//absolute_path_of_remote_server" in ur terminal.
+    - sshfs
+    - [ ] [some ideas](https://www.reddit.com/r/neovim/comments/ykb8td/do_you_use_neovim_when_doing_server_configuration/)
+    - `vim.g.clipboard = 'osc52'`
+
 
 - [ ] configure: trouble
 - [ ] [`fzf` functions](https://github.com/junegunn/fzf/wiki/Examples-(vim))

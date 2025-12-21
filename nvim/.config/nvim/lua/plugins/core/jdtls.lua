@@ -1,7 +1,7 @@
 return {
-  'mfussenegger/nvim-jdtls',
+  "mfussenegger/nvim-jdtls",
   dependencies = {
-    'nvim-lua/plenary.nvim',
+    "nvim-lua/plenary.nvim",
   },
-  ft = 'java',
+  ft = "java",
 }

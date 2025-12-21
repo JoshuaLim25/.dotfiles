@@ -1,7 +1,9 @@
+- [ ] [look at this guy's dots it's similar to mine](https://github.com/MSmaili/dotfiles)
 - [ ] [install script, example here](https://github.com/denisidoro/snippets/blob/main/bash/install_dotfiles)
 - [ ] [cli tools](https://www.reddit.com/r/commandline/comments/1epjppl/10_cli_tools_that_made_the_biggest_impact_on/)
     - [good ideas/projects](https://terminaltrove.com/explore/)
     - [snippet management](https://espanso.org/)
+- [ ] [sdkman for managing versions](https://sdkman.io/usage/)
 - [ ] obsidian on phone
     - https://publish.obsidian.md/git-doc/Integration+with+other+tools
     - https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent?platform=mac

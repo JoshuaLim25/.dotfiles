@@ -4,3 +4,27 @@
   Output = ""
   Tag = []
   command = "git log -- <path_to_file>"
+
+[[Snippets]]
+  Description = "Git: show all changes made in a particular commit"
+  Output = ""
+  Tag = []
+  command = "git show <commit_hash> --stat"
+
+[[Snippets]]
+  Description = "Git: add tracked files to index (exclude untracked files)"
+  Output = ""
+  Tag = []
+  command = "git add -u"
+
+[[Snippets]]
+  Description = "cURL: PUT"
+  Output = ""
+  Tag = []
+  command = "curl -X PUT \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\"id\": 1, \"name\": \"Updated Resource Name\"}' \\\n  http://localhost:3000/api/resources/1"
+
+[[Snippets]]
+  Description = "JUnit: see html report of test suite from proj root"
+  Output = ""
+  Tag = []
+  command = "xdg-open build/reports/tests/test/index.html"

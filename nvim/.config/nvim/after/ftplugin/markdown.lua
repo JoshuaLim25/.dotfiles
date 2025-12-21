@@ -1,4 +1,7 @@
 -- NOTE: can just do `:e` to source after/ftplugin files
+vim.opt_local.spell = true
+vim.opt_local.spelllang = { "en_us" }
+
 -- [[ **BOLD**/*ITALICIZE* SELECTION/WORD ]]
 -- TODO: stop this from working in source code
 -- local keymap = vim.keymap.set

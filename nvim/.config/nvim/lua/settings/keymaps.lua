@@ -100,7 +100,18 @@ keymap("c", "%s/", "%sm/") -- easier regexes
 -- keymap('c', '%s/', '%sm/')
 
 -- [[ WORD COUNT FOR VISUAL SELECTION ]]
-vim.keymap.set("x", "<leader>wc", ":'<,'>w !wc -w<CR>", { desc = "[W]ord [C]ount selection" })
+keymap("x", "<leader>wc", ":'<,'>w !wc -w<CR>", { desc = "[W]ord [C]ount selection" })
+
+-- [[ FORMAT MARKDOWN TABLE ]]
+-- src: https://heitorpb.github.io/bla/format-tables-in-vim/
+-- ! tr -s " " | column -t -s '|' -o '|'
+keymap(
+  "x",
+  "<leader>fmt",
+  ":'<,'>! tr -s ' ' | column -t -s '|' -o '|'<CR>",
+  { desc = "[F]ormat markdown table", noremap = true, silent = true }
+)
+
 -- }}
 
 -- [[ TOGGLES ]] {{
@@ -157,6 +168,7 @@ end, { desc = "Format: Toggle format on save" })
 vim.keymap.set({ "n", "x" }, "<leader>p", [["0p]], { desc = "paste from yank register" })
 
 -- [[ SANER PASTE BEHAVIOR ]]
+keymap({ "i", "c" }, "<c-v>", "<c-r>*", { noremap = true, desc = "Paste from clipboard" })
 -- keymap("n", "P", "m`O<Esc>p``", opts)
 keymap("n", "cc", '"_cc', opts) -- INFO: "_ is like a pit of hell ("black hole register", discards)
 
@@ -243,8 +255,8 @@ vim.keymap.set({ "n", "t" }, "<space>nt", new_terminal)
 -- nmap('<leader>gcb', '0v/|||<CR>$x/====<CR>0v/>>><CR>$x', '[G]it [C]onflict Choose [B]ase')
 -- nmap('<leader>gcs', '0v/====<CR>$x/>>><CR>dd', '[G]it [C]onflict Choose [S]tashed')
 
--- GIT HISTORY OF THE VISUAL SELECTION
-keymap("v", "<leader>l", ":<c-u>exe ':term git log -L' line(\"'<\").','.line(\"'>\").':'.expand('%')<CR>", opts)
+-- [[ GIT HISTORY OF THE VISUAL SELECTION ]]
+keymap("v", "gl", ":<c-u>exe ':term git log -L' line(\"'<\").','.line(\"'>\").':'.expand('%')<CR>", opts)
 
 -- }}
 

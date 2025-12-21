@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+SCREENSHOT_DIR="${HOME}/Pictures/Screenshots"
+mkdir -p "$SCREENSHOT_DIR"
+
+# for unique filename
+TIMESTAMP=$(date +%Y%m%d_%H%M%S)
+FORMAT=$(echo -e "jpeg\npng" | wofi --dmenu -p "Screenshot format:")
+[ -z "$FORMAT" ] && exit  # Exit if cancelled
+
+# capture a selected area and save it as a PNG file
+# out file's name is passed as the final argument to grim
+# grim -g "$(slurp -d)" "${SCREENSHOT_DIR}/Screenshot_${TIMESTAMP}.${FORMAT}"
+grim -g "$(slurp)" "${SCREENSHOT_DIR}/Screenshot_${TIMESTAMP}.${FORMAT}"

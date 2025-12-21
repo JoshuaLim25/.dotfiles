@@ -12,33 +12,24 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 
 -- [[ JUMP TO LAST CURSOR POSITION ON FILE OPEN ]]
 vim.api.nvim_create_autocmd("BufReadPost", {
-	pattern = "*",
-	callback = function()
-		local mark = vim.api.nvim_buf_get_mark(0, '"')
-		local lnum = mark[1]
-		local col = mark[2]
-		if lnum > 1 and lnum <= vim.api.nvim_buf_line_count(0) then
-			if not vim.fn.expand("%:p"):find("/%.git/") then
-				vim.schedule(function()
-					pcall(vim.api.nvim_win_set_cursor, 0, { lnum, col })
-				end)
-			end
-		end
-	end,
+    callback = function(args)
+        local mark = vim.api.nvim_buf_get_mark(args.buf, '"')
+        local line_count = vim.api.nvim_buf_line_count(args.buf)
+        if mark[1] > 0 and mark[1] <= line_count then
+            vim.cmd('normal! g`"zz')
+        end
+    end,
 })
 
--- https://github.com/wfxr/dotfiles/blob/master/vim/nvim/lua/config/commands.lua
--- Function to remove trailing spaces
-local function strip_trailing_spaces()
-  -- Save the current position of the cursor
-  local pos = vim.fn.getpos(".")
-
-  vim.cmd([[%s/\s\+$//e]])
-
-  -- Restore the cursor position
-  vim.fn.setpos(".", pos)
-end
-vim.api.nvim_create_user_command("StripTrailingSpaces", strip_trailing_spaces, {})
+-- [[ REMOVE TRAILING SPACES ]]
+vim.api.nvim_create_autocmd("BufWritePre", {
+  pattern = "*",
+  callback = function()
+    local save_cursor = vim.fn.getpos(".")
+    vim.cmd([[%s/\s\+$//e]])
+    vim.fn.setpos(".", save_cursor)
+  end,
+})
 
 -- [[ PREVENT ACCIDENTAL WRITES TO BUFFERS THAT SHOULDN'T BE EDITED ]]
 vim.api.nvim_create_autocmd("BufRead", {
@@ -157,6 +148,13 @@ vim.api.nvim_create_autocmd('FileType', {
   end,
 })
 
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "json",
+  callback = function()
+    vim.bo.formatprg = "jq"
+  end,
+})
+
 -- [[ SWITCH COLORSCHEME FOR MARKDOWN  ]]
 -- vim.api.nvim_create_autocmd({"BufEnter", "BufWinEnter"}, {
 --   pattern = "*.md",
@@ -167,7 +165,7 @@ vim.api.nvim_create_autocmd('FileType', {
 --     vim.fn.system("tmux source-file ~/.tmux/solarized-light.conf")
 --   end
 -- })
--- 
+--
 -- vim.api.nvim_create_autocmd({"BufLeave", "BufWinLeave"}, {
 --   pattern = "*.md",
 --   callback = function()

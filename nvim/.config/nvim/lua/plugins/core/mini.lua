@@ -101,8 +101,9 @@ return {
         silent = false,
       }
 
-      -- NOTE: for restoring 's' functionality
-      vim.keymap.set({ "n", "v", "x", "o" }, "s", "s", {noremap = true})
+      -- NOTE: for restoring 's' functionality, but also send to black hole reg
+      -- so it doesn't clobber clipboard
+      vim.keymap.set({ "n", "x" }, "s", '"_s', { noremap = true })
 
       -- NOTE: WAS COMMENTED OUT
       local statusline = require 'mini.statusline'

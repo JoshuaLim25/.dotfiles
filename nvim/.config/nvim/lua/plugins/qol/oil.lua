@@ -95,6 +95,7 @@ return {
             -- see :help oil-columns to see which columns are sortable
             { 'type', 'asc' },
             { 'name', 'asc' },
+            { 'mtime', 'asc' },
           },
         },
         -- Extra arguments to pass to SCP when moving/copying files over SSH

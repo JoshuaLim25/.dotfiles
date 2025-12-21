@@ -1,6 +1,42 @@
-
 # TODOs
 ---
+## The Dailies
+- Leetcode problem
+    - already been doing two minimum. make it *3*, try to get to **5**.
+    - Come up with a "script" that you practice with every single leetcode problem
+- Start practicing your narrative, pitch, and whatever for behaviorals
+    - See `~/Documents/ObsidianNotes/003Resources/Runbooks/Interview/Behavioral/Questions.md`
+
+## Technical
+- [ ] What is database schema design with examples of interview questions and answers?
+### JAVA
+- [ ] proficiency and mastery over streams
+- [ ] spring boot
+
+
+## PRONTO
+- [ ] SCHWAB BY DEC 27 FOR $50
+- [ ] polish resume
+- [ ] [spring essentials tutorial](https://spring.academy/courses/spring-framework-essentials)
+- [ ] [great guy marco smart talks tradeoffs](https://www.marcobehler.com/courses/spring-professional)
+    - [more](https://www.marcobehler.com/)
+- [ ] apply to jobs: `~/spaghetti/refs/job/companies.md`
+    - Do one from the list MINIMUM today. Make it a habit
+
+- [ ] Learn intellij shortcuts, some helpful ones [here](https://www.reddit.com/r/IntelliJIDEA/comments/ey4f8n/favorite_intellij_shortcuts/)
+
+- [ ] [go through this stuff at some point](https://www.atlassian.com/git/tutorials/merging-vs-rebasing#the-golden-rule-of-rebasing)
+
+- [ ] [spotify locally but scrobbles it](https://www.reddit.com/r/truespotify/comments/18esly4/how_to_put_your_local_music_files_on_spotify_and/)
+- [ ] change `todo` and `^o` to search through todos.
+    > Look up audiation ear training practice for piano
+    > Ai prompts to look for saas or project ideas
+
+- [ ] [LLD](https://www.reddit.com/r/leetcode/comments/1nvyht0/guidance_on_how_to_approach_lld_interviews/)
+    > The key is to focus on the core functionality first and then expand if time allows. Start by quickly outlining the main classes and their relationships, then implement the most critical features. Don't get bogged down trying to apply every design pattern you know - use them judiciously where they clearly add value. Prioritize clean, readable code over complex architecture that you might not have time to fully implement.
+    > Communication is crucial during the interview. Explain your thought process, discuss trade-offs, and mention potential improvements you'd make with more time. This shows your understanding extends beyond what you've coded. If you're struggling with a particular aspect, it's okay to ask for clarification or guidance. Interviewers often appreciate candidates who can recognize when they need help and aren't afraid to ask for it.
+- [good resource](https://github.com/ashishps1/awesome-low-level-design)
+
 
 ## LC
 - [ ] prefix sum
@@ -38,13 +74,6 @@
 )
 - [ ] templates for code/config files/scripts management
 - [ ] Encrypted file server: Handle file uploads/download with chunking, parallelize encryption/decryption and allow usage of passwords/keys to encrypt/decrypt.
-
-- [ ] ubuntu VM
-- [ ] FAFSA
-- [ ] schedule
-
-
-#### THIS WEEK
 - [ ] [automate dotfiles](https://github.com/jrkessl/workstation/blob/main/automated.sh)
     - wait what about stow lol
 
@@ -70,13 +99,13 @@
 # School
 ---
 ## ECS-392
-- [ ] 
+- [ ]
 
 ## CIS-400
-- [ ] 
+- [ ]
 
 ## CSE-486
-- [ ] 
+- [ ]
 
 ## CIS-554
 
@@ -132,8 +161,8 @@ test sentence
 
 TBPtest sentence
 
-> Case 2: if i visually select the first word, then 
-> This is like "\np," or making a new empty line and 
+> Case 2: if i visually select the first word, then
+> This is like "\np," or making a new empty line and
 
 ### OBSIDIAN
 - [ ] TAB NAVIGATION KEYBINDS
