@@ -77,9 +77,9 @@ zinit light kutsan/zsh-system-clipboard
 # [[ SNIPPETS ]]
 # Don't use, but could be worth looking at
 # `rm -rf .local/share/zinit/snippets`
+zinit snippet OMZP::archlinux
 # zinit snippet OMZP::git
 # zinit snippet OMZP::sudo
-# zinit snippet OMZP::archlinux
 # zinit snippet OMZP::aws
 # zinit snippet OMZP::kubectl
 # zinit snippet OMZP::kubectx
@@ -127,7 +127,7 @@ source ~/.dotfiles/scripts/.local/bin/scripts/abbrev-alias.sh
 export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.socket"
 
 # [[ FZF CONFIGURATIONS ]]
-# src: https://github.com/junegunn/fzf?tab=readme-ov-file#display-modes 
+# src: https://github.com/junegunn/fzf?tab=readme-ov-file#display-modes
 # https://github.com/junegunn/fzf/wiki/Configuring-shell-key-bindings
 # https://github.com/junegunn/fzf?tab=readme-ov-file#tips
 source ~/.fzf_config
@@ -171,6 +171,11 @@ abbrev-alias dcups="docker compose up --remove-orphans --abort-on-container-fail
 abbrev-alias dockps='docker ps --format "{{.ID}} {{.Names}}"'
 docksh() { docker exec -it "$1" /bin/bash; }
 # docker exec -it <id> /bin/bash
+alias ctop='TERM="${TERM/#tmux/screen}" ctop'
+
+# [[ MISE ]]
+# https://mise.jdx.dev/getting-started.html#activate-mise
+eval "$(~/.local/bin/mise activate zsh)"
 
 # [[ JAVA ]]
 # export JAVA_HOME=/path/to/new/jdk
@@ -216,7 +221,7 @@ alias lll="eza --long --git --color=always --no-user --classify --tree --level=2
 alias cat='bat'
 alias bat="bat --color=always --style=numbers,changes,header,grid --italic-text=always"
 alias loc="tokei"
-alias rmrf="kondo"
+alias clean="kondo"
 alias rm='rm -I'    # safety
 alias mv='mv -iv'   # safety
 # alias grep='rg'   # mental block :(
@@ -241,7 +246,6 @@ alias pkg="pacman -Qq | fzf \
 
 # [[ "QOL" ]]
 alias dim='wlsunset -s $(date +%H:%M) -t 4000 &'
-alias pd='pushd'
 alias vdiff='nvim -d'
 alias py='python3'
 alias tree="tree -C -L 3 -a -I '.git' --charset X " # -C for color
@@ -250,7 +254,6 @@ alias dirtree="tree -L 3 -a -d -I '.git' --charset X "
 alias todo='nvim ~/misc/TODO.md'
 alias piano='nvim ~/misc/piano.md'
 alias hk='nvim ~/misc/hotkeys.md'
-alias remind='nvim ~/misc/reminders.md'
 alias qq='nvim ~/misc/blooms.md'
 # alias proompt='nvim ~/spaghetti/refs/prompts/'
 alias sc='shellcheck'
@@ -264,6 +267,7 @@ alias goupdate='sudo rm -rf /usr/local/go && curl -L https://go.dev/dl/go1.18.2.
 # [[ GRC (COLORIZED OUTPUT) ]]
 alias go='grc go'
 alias ifconfig='grc ifconfig'
+alias diff='grc diff'
 # }}
 
 # [[ TESTING RANDOM IDEAS ]] {{
@@ -278,7 +282,7 @@ alias vgo='cd /tmp && (nvim main.go)'
 alias vjava='cd /tmp && (nvim Solution.java)'
 jj() {
     local filename="$1"
-    local stripped="${filename%.*}" 
+    local stripped="${filename%.*}"
     javac "$filename" && java "$stripped"
 }
 # }}

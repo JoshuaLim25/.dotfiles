@@ -1,7 +1,7 @@
 return {
-  'shortcuts/no-neck-pain.nvim',
+  "shortcuts/no-neck-pain.nvim",
   config = function()
-    require('no-neck-pain').setup {
+    require("no-neck-pain").setup({
       autocmds = {
         enableOnVimEnter = true,
         skipEnteringNoNeckPainBuffer = true, -- true if you don't want scratchpad
@@ -10,7 +10,7 @@ return {
       width = 65,
       mappings = {
         enabled = true,
-        toggle = '<Leader>tn',
+        toggle = "<Leader>tn",
         -- -- Sets a global mapping to Neovim, which allows you to toggle the each side buffer.
         -- toggleLeftSide = '<Leader>tb', -- toggle buffer, not needed w/only one
         -- toggleRightSide = '<Leader>nqr',
@@ -28,29 +28,33 @@ return {
         },
         -- blend > 0 shows line on the side
         colors = {
-          blend = 1,
+          blend = 0,
         },
         -- no eol chars (~)
         wo = {
-          fillchars = 'eob: ',
+          fillchars = "eob: ",
         },
         -- automatically saves its content at the given `location`.
         -- NOTE: quitting an unsaved scratchPad buffer is non-blocking, and the content is still saved.
         scratchPad = {
           -- set to `false` to disable auto-saving
-          enabled = true,
+          enabled = false,
           -- set to `nil` to default to current working directory
           -- TODO: mmaybe have a script to save it from /tmp?
           pathToFile = '/tmp/' .. string.format("scratchpad.%d.md", math.random(1000)), -- pathToFile = '/tmp/scratchpad.md',
         },
         bo = {
-          filetype = '.md',
+          filetype = "markdown",
+          -- never write to tmp file to disk
+          buftype = "nofile",
+          -- prevents 'swapfile' creation (REALLY ANNOYING)
+          swapfile = false,
         },
       },
       -- colors = {
       --   -- iff `backgroundColor` not present, darken side buffers
       --   blend = -0.2,
       -- },
-    }
+    })
   end,
 }

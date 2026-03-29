@@ -28,7 +28,7 @@
 # bindkey '^v' fzf-nvim-widget
 
 # [[ INCLUDES DIRPATH ]]
-fzf-nvim-widget() {
+fzf_references() {
   local file=$(find ~/spaghetti/refs \( -type f -o -type l \) -printf "%P\n" | fzf)
   if [[ -n "$file" ]]; then
     BUFFER="nvim ~/spaghetti/refs/$file"
@@ -36,8 +36,8 @@ fzf-nvim-widget() {
   fi
   zle reset-prompt
 }
-zle -N fzf-nvim-widget
-bindkey '^v' fzf-nvim-widget
+zle -N fzf_references
+bindkey '^v' fzf_references
 # }}
 
 # [[ BASICS ]] {{
@@ -48,8 +48,8 @@ bindkey '^v' fzf-nvim-widget
 # TODO: figure out if you want ~/.local/bin/scripts/ff
 f() {
     command -v fzf >/dev/null 2>&1 || { echo "Install fzf first!"; return 1; }
-    # local file=$(fzf --preview="cat {}" --height=40% --reverse)
-    local file=$(fzf --preview="bat --style=numbers --color=always {}" --height=40% --reverse)
+    # local file=$(fzf --preview="cat {}")
+    local file=$(fzf --preview="bat --style=numbers --color=always {}")
     [[ -n "$file" ]] && nvim "$file"
 }
 
@@ -94,7 +94,7 @@ cdg() {
     fi
 }
 
-# https://github.com/MSmaili/dotfiles/blob/370bac98a72d1a4ff8d2cfbea789ef4472f348a7/.config/zsh/functions.zsh 
+# https://github.com/MSmaili/dotfiles/blob/370bac98a72d1a4ff8d2cfbea789ef4472f348a7/.config/zsh/functions.zsh
 # [[ VIEW THE DIFF OF A FILE ]]
 gdiff() {
     local args="$*"

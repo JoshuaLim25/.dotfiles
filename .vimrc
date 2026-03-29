@@ -1,7 +1,8 @@
+" TODO: add in plugins
 " [[ ESSENTIAL ]] {{
 filetype plugin indent on
 syntax enable
-set guicursor+=a:blinkon0 " Disable blinking
+set guicursor+=a:blinkon0              " Disable blinking
 set clipboard=unnamedplus              " sync os clipboard with vim
 set virtualedit=block                  " visual block mode cool behavior
 set visualbell                         " never ever make my terminal beep
@@ -13,6 +14,7 @@ set conceallevel=0                     " so that `` is visible in markdown files
 set encoding=UTF-8                     " the encoding written to a file
 set autoindent                         " copy indent from current line when starting new one
 set formatoptions-=cro                 " don't insert comment leader automatically
+set incsearch                          " highlight, jump to matches in real time
 " }}
 
 " [[ LINE NUMBERS ]] {{
@@ -74,18 +76,19 @@ set history=5000        " save command line window history
 if has('termguicolors')
   set termguicolors     " true color support
 endif
-" [[ COLORSCHEME ]]
-" https://github.com/habamax/vim-gruvbit
-" Install gruvbit: git clone https://github.com/habamax/vim-gruvbit ~/.vim/pack/plugins/start/vim-gruvbit
-" Or using vim-plug: Plug 'habamax/vim-gruvbit'
-set termguicolors
-" colorscheme gruvbit
-" colorscheme desert
+
 set signcolumn=yes      " keep signcolumn on by default
 set cursorline          " show which line your cursor is on
 set scrolloff=999       " keep cursor centered
 set list                " show whitespace characters
 set listchars=tab:»\ ,trail:·,nbsp:␣
+
+" [[ COLORSCHEME ]]
+" https://github.com/habamax/vim-gruvbit
+" Install gruvbit: git clone https://github.com/habamax/vim-gruvbit ~/.vim/pack/plugins/start/vim-gruvbit
+" Or using vim-plug: Plug 'habamax/vim-gruvbit'
+" colorscheme gruvbit
+" colorscheme desert
 " }}
 
 " [[ COMPLETIONS ]] {{
@@ -152,10 +155,10 @@ vnoremap > >gv
 nnoremap <leader>so :.!sh<CR>
 
 " [[ ANTI-TEXTWRAP ]]
-nnoremap <expr> k (v:count == 0 ? 'gk' : 'k')
-nnoremap <expr> j (v:count == 0 ? 'gj' : 'j')
-vnoremap <expr> k (v:count == 0 ? 'gk' : 'k')
-vnoremap <expr> j (v:count == 0 ? 'gj' : 'j')
+"nnoremap <expr> k (v:count == 0 ? 'gk' : 'k')
+"nnoremap <expr> j (v:count == 0 ? 'gj' : 'j')
+"vnoremap <expr> k (v:count == 0 ? 'gk' : 'k')
+"vnoremap <expr> j (v:count == 0 ? 'gj' : 'j')
 
 " [[ VERTICAL MVMT ]]
 nnoremap <silent> <C-d> <C-d>zz
@@ -168,7 +171,8 @@ nnoremap <silent> * *zz
 nnoremap <silent> # #zz
 nnoremap <silent> g* g*zz
 
-" [[ NO MORE ESCAPING SPECIAL CHARS IN SEARCH ]]
+" [[ "Very No Magic" ]]
+" Lets you search for special chars like * or [ or | literally
 nnoremap ? ?\V
 nnoremap / /\V
 cnoremap %s/ %sm/
@@ -182,9 +186,17 @@ nnoremap <silent> <Esc> :nohlsearch<CR>
 
 " [[ COPY/PASTE ]] {{
 " [[ COPY PASTE SYSTEM CLIPBOARD ]]
-xnoremap <silent> <leader>y y:call system("wl-copy --trim-newline", @*)<cr>:call system("wl-copy -p --trim-newline", @*)<cr>
+"xnoremap <silent> <leader>y y:call system("wl-copy --trim-newline", @*)<cr>:call system("wl-copy -p --trim-newline", @*)<cr>
 
 " [[ SANER PASTE BEHAVIOR ]]
+" Paste from system clipboard in Insert and Command-line mode
+inoremap <C-v> <C-r>*
+cnoremap <C-v> <C-r>*
+
+" Paste from the default (unnamed) register in Command-line mode
+cnoremap <C-v> <C-r>"
+
+" To not clobber clipboard
 nnoremap cc "_cc
 
 " [[ RE-SELECT MOST RECENT VISUAL HIGHLIGHTED ]]

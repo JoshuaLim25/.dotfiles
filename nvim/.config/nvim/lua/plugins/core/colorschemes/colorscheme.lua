@@ -139,6 +139,11 @@ return {
             ['@markup.list.markdown'] = { link = 'Function' }, -- + list
             ['@markup.quote.markdown'] = { fg = '#de935f' }, -- > blockcode
             ['@markup.list.checked.markdown'] = { link = 'WarningMsg' }, -- - [X] checked list item
+
+            ['@markup.heading.1.markdown'] = { fg = '#f0c674', bold = true },
+            ['@markup.heading.2.markdown'] = { fg = '#b5bd68', bold = true },
+            ['@markup.heading.3.markdown'] = { fg = '#81a2be', bold = true },
+            -- ['@markup.heading.4.markdown'] = { fg = '#9fb5c9', bold = true },
           }
         end,
         theme = 'wave',

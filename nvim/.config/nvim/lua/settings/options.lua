@@ -3,7 +3,12 @@
 local o = vim.opt
 
 -- [[ ESSENTIAL ]] {{
-o.clipboard = 'unnamedplus'              -- sync os clipboard with nvim
+-- Use system clipboard locally, OSC 52 over SSH
+if os.getenv("SSH_TTY") or os.getenv("SSH_CLIENT") then
+  vim.g.clipboard = 'osc52'
+else
+  o.clipboard = 'unnamedplus'
+end
 o.virtualedit = 'block'                  -- visual block mode cool behavior
 o.vb = true                              -- never ever make my terminal beep
 o.mouse = 'a'                            -- enable mouse mode

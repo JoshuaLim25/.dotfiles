@@ -11,7 +11,7 @@ set $mod Mod1
 
 # get rid of stupid title bar
 default_border none
-titlebar_border_thickness 0                                                     
+titlebar_border_thickness 0
 titlebar_padding 0
 
 # client.focused #81a2be #2D4F67 #ffffff
@@ -44,7 +44,10 @@ font pango: JetBrainsMono Nerd Font 14
 # output * bg ~/Downloads/Pictures/windows.jpg fill
 # output * bg ~/Downloads/Pictures/galaxy.jpg fill
 # output * bg ~/Downloads/Pictures/sky.jpg fill
-output * bg ~/Downloads/Pictures/squares.png fill
+
+# output * bg ~/Downloads/Pictures/squares.png fill
+output * bg ~/Downloads/Pictures/Screenshots/Screenshot_20260113_103436.png center
+
 #
 # Example configuration:
 #
@@ -306,6 +309,10 @@ exec dunst &
 exec wlsunset -S 05:30 -s 18:30 -t 3000
 exec_always pkill kanshi; exec kanshi
 
+# Fix screen sharing, also need ~/.zprofile
+exec_always export XDG_CURRENT_DESKTOP=sway
+exec dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
+
 # Lock the screen manually
 # s for sleep or screenlock, l was taken
 # bindsym $mod+Shift+s exec swaylock
@@ -334,8 +341,8 @@ exec bluetoothctl trust BC:87:FA:BB:97:66
 exec bluetoothctl connect BC:87:FA:BB:97:66
 
 # Keyboard
-exec bluetoothctl trust 34:88:5D:D1:54:BD 
-exec bluetoothctl connect 34:88:5D:D1:54:BD 
+exec bluetoothctl trust 34:88:5D:D1:54:BD
+exec bluetoothctl connect 34:88:5D:D1:54:BD
 # }}
 
 

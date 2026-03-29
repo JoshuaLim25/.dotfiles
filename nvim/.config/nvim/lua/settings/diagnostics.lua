@@ -7,7 +7,7 @@ keymap('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q
 
 -- [[ TOGGLE DIAGNOSTICS ]]
 local diagnostics_enabled = true
-keymap('n', '<leader>dd', function()
+keymap('n', '<leader>td', function()
     diagnostics_enabled = not diagnostics_enabled
     if diagnostics_enabled then
         vim.diagnostic.enable()

@@ -28,3 +28,59 @@
   Output = ""
   Tag = []
   command = "xdg-open build/reports/tests/test/index.html"
+
+[[Snippets]]
+  Description = "Mise: install and set a tool version globally"
+  Output = ""
+  Tag = ["mise", "install"]
+  command = "mise use -g <tool>@<version>"
+
+[[Snippets]]
+  Description = "Mise: Install and set an NPM package globally"
+  Output = ""
+  Tag = ["mise", "npm", "global"]
+  command = "mise use -g npm:<package_name>@<version>"
+
+[[Snippets]]
+  Description = "Mise: execute a specific tool version once without installing/activating"
+  Output = ""
+  Tag = ["mise", "exec"]
+  command = "mise exec <tool>@<version> -- <command>"
+
+[[Snippets]]
+  Description = "Mise: uninstall a tool and all its versions"
+  Output = ""
+  Tag = ["mise", "uninstall"]
+  command = "mise uninstall -a <tool>"
+
+[[Snippets]]
+  Description = "Mise: Open the global configuration file for editing"
+  Output = ""
+  Tag = ["mise", "config"]
+  command = "mise config edit --global"
+
+[[Snippets]]
+  Description = "Clang-format: apply to whole codebase"
+  Output = ""
+  Tag = []
+  command = "find . -iname '*.h' -o -iname '*.cpp' | xargs clang-format -i"
+
+[[Snippets]]
+  Description = "Diff: create patch file"
+  Output = ""
+  Tag = []
+  command = "diff -urN <original_dir> <new_dir> > changes.patch"
+
+[[Snippets]]
+  Description = "Diff: apply patch file"
+  Output = ""
+  Tag = []
+  command = "patch --dry-run -p1 < ../changes.patch"
+
+[[Snippets]]
+  Description = "Diff: undo patch file"
+  Output = ""
+  Tag = []
+  command = "patch -R -p1 < ../changes.patch"
+
+

@@ -97,6 +97,7 @@
 - `java-environment-common`
 - `java-runtime-common`
 - `gradle`
+- `sfml`
 
 ## Sway
 
@@ -116,6 +117,8 @@
 - `wtype`
 - `swaylock`
 - `swayidle`
+- `xdg-desktop-portal`
+- `xdg-desktop-portal-wlr`
 
 # AUR
 - `visual-studio-code-bin`

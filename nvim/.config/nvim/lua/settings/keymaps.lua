@@ -27,12 +27,7 @@ keymap("n", "<leader>e", "q:", { noremap = true, silent = true, desc = "[E]dit c
 keymap("n", "<leader>wnf", ":noautocmd w <CR>", { noremap = true, silent = true, desc = "[W]rite [N]o [F]ormat" })
 -- }}
 
--- [[ QOL/COOL ]] {{
--- [[ QUICK ITERATIONS WHEN TESTING CONFIG ]]
-vim.keymap.set("n", "<leader>R", ':source %<CR> | :lua print("Sourced")<CR>', { desc = "[R]eload file" })
--- Will refresh the buffer from disk, discarding any unsaved changes, or lets you make sure that you have the latest version of the file as saved on disk.
--- vim.keymap.set('n', '<leader>R', ':w<cr>:e!<cr>', { desc = '[R]efresh' })
-
+-- [[ QOL ]] {{
 -- [[ MOVE VISUALLY SELECTED LINES/BLOCKS VERTICALLY ]]
 keymap("v", "J", ":m '>+1<CR>gv=gv", opts)
 keymap("v", "K", ":m '<-2<CR>gv=gv", opts)
@@ -48,6 +43,11 @@ end, { expr = true })
 keymap("x", "A", function()
   return vim.fn.mode() == "V" and "$<C-v>A" or "A"
 end, { expr = true })
+
+-- [[ STOP KILLING BROWSER WINDOW. HAD TO BE DONE. ]]
+-- NOTE: "CTRL+Backspace sends the same control character as CTRL+H, so for terminal they are exactly the same key combination.
+-- Others: TAB/CTRL+I, ESC/CTRL+[, ENTER/CTRL+M."
+vim.keymap.set({ "i", "c" }, "<C-H>", "<C-W>", { desc = "Delete previous word (Ctrl+Backspace)" })
 
 -- [[ GLOBAL SUBSTITUTION ]]
 -- keymap("n", "<leader>su", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]], opts)
@@ -100,7 +100,7 @@ keymap("c", "%s/", "%sm/") -- easier regexes
 -- keymap('c', '%s/', '%sm/')
 
 -- [[ WORD COUNT FOR VISUAL SELECTION ]]
-keymap("x", "<leader>wc", ":'<,'>w !wc -w<CR>", { desc = "[W]ord [C]ount selection" })
+keymap("x", "<leader>wc", ":'<,'>w !wc <CR>", { desc = "[W]ord [C]ount selection" })
 
 -- [[ FORMAT MARKDOWN TABLE ]]
 -- src: https://heitorpb.github.io/bla/format-tables-in-vim/
@@ -112,6 +112,23 @@ keymap(
   { desc = "[F]ormat markdown table", noremap = true, silent = true }
 )
 
+-- [[ APPLY CHANGE ACROSS LINE OR VISUAL SELECTION (i.e., ;.;.;.) ]]
+-- Normal Mode: Just runs the loop
+vim.keymap.set("n", "<leader>.", function()
+  vim.fn.setreg("z", ";.@z")
+  vim.cmd("normal! @z")
+end, { desc = "Repeat change to end of line" })
+
+-- Visual Mode: Re-selects the area and runs the loop inside it
+vim.keymap.set("x", "<leader>.", function()
+  -- 1. Save the last search-and-repeat macro
+  vim.fn.setreg("z", ";.@z")
+  -- 2. 'gv' re-selects the last visual area
+  -- 3. ':norm @z' runs the macro on that selection
+  -- We use <esc> to ensure we are in a clean state before running
+  vim.cmd("normal! gv")
+  vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes(":norm! @z<cr>", true, false, true), "n", false)
+end, { desc = "Repeat change inside selection" })
 -- }}
 
 -- [[ TOGGLES ]] {{
@@ -126,19 +143,19 @@ local function get_git_root()
   local dot_git_path = vim.fn.finddir(".git", ".;")
   return vim.fn.fnamemodify(dot_git_path, ":h")
 end
-vim.keymap.set("n", "<leader>tr", function()
+keymap("n", "<leader>tr", function()
   local new = get_git_root()
   vim.api.nvim_set_current_dir(get_git_root())
   vim.notify(string.format("Changed root to: %s", new))
 end, {})
 
--- vim.keymap.set('n', '<leader>tr', function()
+-- keymap('n', '<leader>tr', function()
 --   vim.g.use_git_root = not vim.g.use_git_root
 --   local cwd = vim.g.use_git_root and vim.fs.root(0, '.git') or vim.uv.cwd()
 --   vim.notify(string.format('New root: %s', cwd))
 -- end)
 
--- vim.keymap.set('n', '<leader>tr', function()
+-- keymap('n', '<leader>tr', function()
 --   vim.g.use_git_root = not vim.g.use_git_root
 --   local new_root = vim.g.use_git_root and vim.fs.root(0, '.git') or vim.uv.cwd()
 --   if new_root then
@@ -155,7 +172,7 @@ end, {})
 -- }
 
 -- [[ TOGGLE FORMATTING ]]
-vim.keymap.set("n", "<leader>tf", function()
+keymap("n", "<leader>tf", function()
   vim.b.disable_formatting = not vim.b.disable_formatting
   local res = vim.b.disable_formatting and "Disabled" or "Enabled"
   vim.notify(string.format("%s autoformat on save", res))
@@ -163,90 +180,23 @@ end, { desc = "Format: Toggle format on save" })
 -- }}
 
 -- [[ COPY/PASTE ]] {{
--- [[ KEEP PASTE BUFFER CLEAN ]]
--- keymap('x', '<leader>p', [["_dP]])
-vim.keymap.set({ "n", "x" }, "<leader>p", [["0p]], { desc = "paste from yank register" })
+-- [[ KEEP PASTE BUFFER CLEAN/REPEATED PASTE ]]
+keymap("x", "<leader>p", [["_dP]])
 
 -- [[ SANER PASTE BEHAVIOR ]]
-keymap({ "i", "c" }, "<c-v>", "<c-r>*", { noremap = true, desc = "Paste from clipboard" })
--- keymap("n", "P", "m`O<Esc>p``", opts)
+keymap({ "i", "c" }, "<C-v>", "<C-r>+", { noremap = true, desc = "Paste from system clipboard" })
 keymap("n", "cc", '"_cc', opts) -- INFO: "_ is like a pit of hell ("black hole register", discards)
-
--- [[ DELETE WITHOUT COPYING INTO REGISTER ]]
--- keymap('n', 'x', '"_x', opts) -- WHY: makes it hard to correct small typos (i.e., using `xp`)
--- TODO: from https://github.com/seblyng/dotfiles/blob/06f6ddf292da0f61636faf9d1f3c6e9e3f371e1f/nvim/lua/seblyng/keymaps.lua
--- vim.keymap.set({ "n", "x" }, "<leader>d", '"_d', { desc = "Delete into black hole register" })
--- vim.keymap.set({ "n", "x" }, "<leader>c", '"_c', { desc = "Change into black hole register" })
-
--- vim.keymap.set("x", "<leader>p", '"_dP', { desc = "Delete into black hole register on visual paste" })
 
 -- [[ RE-SELECT MOST RECENT VISUAL HIGHLIGHTED ]]
 keymap("n", "<leader>v", "`[V`]", opts)
 
--- [[ NEAT X CLIPBOARD INTEGRATION ]]
-keymap("n", "<leader>p", ":read !wl-paste<cr>") -- paste clipboard into buffer
+-- -- [[ NEAT X CLIPBOARD INTEGRATION ]]
+-- keymap("n", "<leader>p", ":read !wl-paste<cr>") -- paste clipboard into buffer
 keymap("n", "<leader>cc", ":w !wl-copy<cr><cr>") -- copy entire buffer into clipboard
 
 -- [[ EXPLICITLY YANK TO SYSTEM CLIPBOARD (HIGHLIGHTED AND ENTIRE ROW) ]]
--- vim.keymap.set({ 'n', 'v' }, '<leader>y', [["+y]])
--- vim.keymap.set('n', '<leader>Y', [["+Y]])
--- }}
-
--- [[ BUILTIN TERMINAL ]] {{
--- credits: TJ Devries
-local state = {
-  floating = {
-    buf = -1,
-    win = -1,
-  },
-}
-
-local function create_floating_window(options)
-  options = options or {}
-  local width = options.width or math.floor(vim.o.columns * 0.8)
-  local height = options.height or math.floor(vim.o.lines * 0.8)
-
-  local col = math.floor((vim.o.columns - width) / 2)
-  local row = math.floor((vim.o.lines - height) / 2)
-
-  local buf = nil
-  if vim.api.nvim_buf_is_valid(options.buf) then
-    buf = options.buf
-  else
-    buf = vim.api.nvim_create_buf(false, true)
-  end
-
-  local win_config = {
-    relative = "editor",
-    border = "rounded",
-    style = "minimal",
-    width = width,
-    height = height,
-    col = col,
-    row = row,
-  }
-
-  local win = vim.api.nvim_open_win(buf, true, win_config)
-  return { buf = buf, win = win }
-end
-
-local new_terminal = function()
-  if not vim.api.nvim_win_is_valid(state.floating.win) then
-    state.floating = create_floating_window({ buf = state.floating.buf })
-    if vim.bo[state.floating.buf].buftype ~= "terminal" then
-      vim.cmd.terminal()
-    end
-    -- Start float terminal in insert mode
-    vim.api.nvim_set_current_win(state.floating.win)
-    vim.cmd("startinsert!")
-  else
-    vim.api.nvim_win_hide(state.floating.win)
-  end
-end
-vim.api.nvim_create_user_command("NewTerm", new_terminal, {})
-vim.keymap.set({ "n", "t" }, "<space>nt", new_terminal)
--- NOTE: won't work w/tmux :/
--- vim.keymap.set('t', '<esc><esc>', '<c-\\><c-n>')
+-- keymap({ 'n', 'v' }, '<leader>y', [["+y]])
+-- keymap('n', '<leader>Y', [["+Y]])
 -- }}
 
 -- [[ GIT STUFF ]] {{
@@ -301,7 +251,7 @@ end
 -- }}
 
 -- [[ TESTS ]] {{
-vim.keymap.set("n", "<leader>r", function()
+keymap("n", "<leader>r", function()
   vim.cmd("write")
   local filename = vim.fn.expand("%:t")
   os.execute('tmux send-keys -t 1 "go run ./' .. filename .. '" C-m')
