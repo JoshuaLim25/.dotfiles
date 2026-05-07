@@ -296,10 +296,14 @@ assign [app_id="kitty"] workspace number 3
 assign [class="discord"] workspace number 4
 assign [class="obsidian"] workspace number 8
 assign [app_id="zathura"] workspace number 9
+assign [app_id="dev.zed.Zed"] workspace number 9
 assign [app_id="VirtualBox Manager"] workspace number 10
 
 # Workspace switching
 # bindsym $mod+1 workspace number 1
+
+# Make opening zed a focus event
+for_window [app_id="dev.zed.Zed"] focus
 
 # Start applications on login
 exec firefox

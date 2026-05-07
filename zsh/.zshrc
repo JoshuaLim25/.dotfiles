@@ -139,6 +139,7 @@ source ~/.functions.zsh
 # [[ ABBREVIATIONS ]] {{
 # [[ ESSENTIAL ]]
 abbrev-alias v='nvim'
+abbrev-alias z='zed'
 abbrev-alias getmeout="shutdown -h now"
 abbrev-alias za="zathura"
 
@@ -190,10 +191,20 @@ cargo clippy -- \
 -W clippy::unwrap_used \
 '
 
-# [[ GO ]]
+# [[ GO ]] {{
 abbrev-alias gorun='ls *.go | entr -c go run /_' # e.g., rungo test.txt
+
 # check for new available package updates
 abbrev-alias gocheck="go list -u -f '{{if (and (not (or .Main .Indirect)) .Update)}}{{.Path}}: {{.Version}} -> {{.Update.Version}}{{end}}' -m all"
+
+# https://github.com/lotusirous/gostdsym#installation
+# [G]o [O]pen [D]ocs
+alias god='stdsym | fzf --preview "go doc {} | bat -l go --color=always --style=plain" \
+             --preview-window "right,60%,border-left" \
+             --bind "enter:execute(go doc {} | bat -l go --style=plain --paging=always)"'
+# [G]o [O]pen [D]ocs e[X]ecute in browser
+alias godx='stdsym -web | fzf --prompt "Symbols> " --preview "go doc \$(echo {} | sed s/#/./g)" --bind "enter:become( echo "https://pkg.go.dev/{}" |xargs xdg-open)"'
+# }}
 
 # [[ SQL ]]
 alias mysql='mariadb'
@@ -205,10 +216,10 @@ abbrev-alias tnew="tmux new -s"
 
 # [[ ALIASES ]] {{
 # [[ SHELL ]]
-alias ..="cd .."
-alias ...="cd ../.."
-alias ....="cd ../../.."
-alias .....="cd ../../../.."
+alias ..="cd .. && ls"
+alias ...="cd ../.. && ls"
+alias ....="cd ../../.. && ls"
+alias .....="cd ../../../.. && ls"
 alias s='source ~/.zshrc'
 alias dot='cd ~/.dotfiles'
 alias vz='nvim ~/.zshrc'
@@ -218,7 +229,7 @@ alias l="eza --no-filesize --color=always --no-user --classify"
 alias ll="eza --no-filesize --git --long --color=always --no-user --classify"
 alias lla="eza -a --no-filesize --git --long --color=always --no-user --classify"
 alias lll="eza --long --git --color=always --no-user --classify --tree --level=2"
-alias cat='bat'
+# alias cat='bat'   # needed to escape too often
 alias bat="bat --color=always --style=numbers,changes,header,grid --italic-text=always"
 alias loc="tokei"
 alias clean="kondo"

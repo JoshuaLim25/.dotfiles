@@ -107,9 +107,9 @@ keymap("x", "<leader>wc", ":'<,'>w !wc <CR>", { desc = "[W]ord [C]ount selection
 -- ! tr -s " " | column -t -s '|' -o '|'
 keymap(
   "x",
-  "<leader>fmt",
+  "<leader>mf",
   ":'<,'>! tr -s ' ' | column -t -s '|' -o '|'<CR>",
-  { desc = "[F]ormat markdown table", noremap = true, silent = true }
+  { desc = "[M]arkdown [F]ormat  table", noremap = true, silent = true }
 )
 
 -- [[ APPLY CHANGE ACROSS LINE OR VISUAL SELECTION (i.e., ;.;.;.) ]]
